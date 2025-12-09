@@ -117,7 +117,7 @@
                           kardex.id_TRAN.id_PERSONA.ape_MAT}}
                         </td>
                         <td>{{kardex.condicion}}</td>
-                        <td style="color: lime;" *ngIf="kardex.operacion =='S' else elseBlock">{{"+ "+kardex.cantidad}}</td>
+                        <td style="color: rgb(36, 185, 36);" *ngIf="kardex.operacion =='S' else elseBlock">{{"+ "+kardex.cantidad}}</td>
                         <ng-template #elseBlock>
                           <td style="color: firebrick;">{{"- "+kardex.cantidad}}</td>
                         </ng-template>

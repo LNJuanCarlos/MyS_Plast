@@ -58,7 +58,7 @@
                             </div>
                             <div class="form-group">
                                 <label for="almacen">ALMACÉN DE ORIGEN</label>
-                                <div>
+                                <div class="row">
                                     <select class="form-control" [(ngModel)]="selectedAlmacen.id_ALMACEN"
                                         #almacenes="ngModel" required name="almacen"
                                         (ngModelChange)="handleAlmacenChange($event)">
@@ -69,15 +69,15 @@
                             </div>
                             <div class="form-group">
                                 <label for="sector">SECTOR DE ORIGEN</label>
-                                <div>
+                                <div class="row">
                                     <select class="form-control" [(ngModel)]="transferencia.id_SECTOR"
                                         #sectores="ngModel" required name="sector">
                                         <option *ngFor="let sector of sector" [ngValue]="sector">
                                             {{sector.nom_SECTOR}}</option>
                                     </select>
                                 </div>
-                            </div>
-                            <div class="form-group">
+                                </div>
+                                <div class="form-group">
                                 <label for="almacendest">ALMACÉN DE DESTINO</label>
                                 <div>
                                     <select class="form-control" [(ngModel)]="selectedAlmacendest.id_ALMACEN"

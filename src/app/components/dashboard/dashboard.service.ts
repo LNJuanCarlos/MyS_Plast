@@ -11,14 +11,15 @@ import { Ordenprod } from '../ordenprod/ordenprod';
 import { ConsultaGastosMes } from './consultagastosmes';
 import { TopProductosKardex } from './topproductoskardex';
 import { TopProductosProduccion } from './topproductosproduccion';
-
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class DashboardService {
 
-  private urlEndpoint: string = 'http://localhost:8080/dashboard';
+  //private urlEndpoint: string = 'http://localhost:8080/dashboard';
+  private urlEndpoint: string = `${environment.apiUrl}/dashboard`;
 
   constructor(private http: HttpClient, private router: Router, private authService: AuthService) { }
 

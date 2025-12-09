@@ -6,14 +6,15 @@ import { catchError } from 'rxjs/operators';
 import { AuthService } from 'src/app/views/pages/auth/login/auth.service';
 import Swal from 'sweetalert2';
 import { Recetaprod } from './recetaprod';
-
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class RecetaprodService {
 
-  private urlEndpoint: string = 'http://localhost:8080/recetaprod';
+  //private urlEndpoint: string = 'http://localhost:8080/recetaprod';
+  private urlEndpoint: string = `${environment.apiUrl}/recetaprod`;
 
   constructor(private http: HttpClient, private router: Router, private authService: AuthService) { }
 

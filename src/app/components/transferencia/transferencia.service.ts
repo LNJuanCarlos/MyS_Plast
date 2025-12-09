@@ -10,13 +10,15 @@ import { AuthService } from 'src/app/views/pages/auth/login/auth.service';
 import { Router } from '@angular/router';
 import { Categoriatransaccion } from '../categoriatransaccion/categoriatransaccion';
 import { Transferencia } from './transferencia';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class TransferenciaService {
 
-  private urlEndpoint: string = 'http://localhost:8080/transferencia';
+  //private urlEndpoint: string = 'http://localhost:8080/transferencia';
+  private urlEndpoint: string = `${environment.apiUrl}/transferencia`;
 
   constructor(private http: HttpClient, private router: Router, private authService: AuthService) { }
 

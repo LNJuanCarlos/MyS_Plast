@@ -6,13 +6,15 @@ import { catchError } from 'rxjs/operators';
 import { AuthService } from 'src/app/views/pages/auth/login/auth.service';
 import Swal from 'sweetalert2';
 import { Distrito } from './distrito';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class DistritoService {
 
-  private urlEndpoint: string = 'http://localhost:8080/distrito';
+  //private urlEndpoint: string = 'http://localhost:8080/distrito';
+  private urlEndpoint: string = `${environment.apiUrl}/distrito`;
 
   constructor(private http: HttpClient, private router: Router, private authService: AuthService) { }
 

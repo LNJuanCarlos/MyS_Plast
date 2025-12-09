@@ -6,13 +6,15 @@ import { catchError } from 'rxjs/operators';
 import { AuthService } from 'src/app/views/pages/auth/login/auth.service';
 import Swal from 'sweetalert2';
 import { Unmedida } from './unmedida';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class UnmedidaService {
 
-  private urlEndPoint: string = 'http://localhost:8080/unmedida';
+  //private urlEndPoint: string = 'http://localhost:8080/unmedida';
+  private urlEndPoint: string = `${environment.apiUrl}/unmedida`;
 
   constructor(private http: HttpClient, private router: Router, private authService: AuthService) { }
 

@@ -7,6 +7,7 @@ import { Router } from '@angular/router';
 import { AuthService } from 'src/app/views/pages/auth/login/auth.service';
 import { Usuario } from './usuario';
 import { Rol } from '../rol/rol';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
     providedIn: 'root'
@@ -15,7 +16,8 @@ import { Rol } from '../rol/rol';
   @Injectable()
   export class UsuarioService {
 
-    private urlEndpoint: string = 'http://localhost:8080/usuarios';
+    //private urlEndpoint: string = 'http://localhost:8080/usuarios';
+    private urlEndpoint: string = `${environment.apiUrl}/usuarios`;
 
     constructor(private http: HttpClient, private router: Router, private authService: AuthService) { }
 

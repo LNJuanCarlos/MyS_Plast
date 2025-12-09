@@ -6,13 +6,16 @@ import { catchError } from 'rxjs/operators';
 import { AuthService } from 'src/app/views/pages/auth/login/auth.service';
 import Swal from 'sweetalert2';
 import { Actividad } from './actividad';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ActividadService {
 
-  private urlEndpoint: string = 'http://localhost:8080/actividad';
+  //private urlEndpoint: string = 'http://localhost:8080/actividad';
+  private urlEndpoint: string = `${environment.apiUrl}/actividad`;
+
 
   constructor(private http: HttpClient, private router: Router, private authService: AuthService) { }
 

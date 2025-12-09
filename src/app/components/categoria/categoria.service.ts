@@ -6,13 +6,15 @@ import { catchError } from 'rxjs/operators';
 import { AuthService } from 'src/app/views/pages/auth/login/auth.service';
 import Swal from 'sweetalert2';
 import { Categoria } from './categoria';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class CategoriaService {
 
-  private urlEndPoint: string = 'http://localhost:8080/categoria';
+  //private urlEndPoint: string = 'http://localhost:8080/categoria';
+  private urlEndPoint: string = `${environment.apiUrl}/categoria`;
 
   constructor(private http: HttpClient, private router: Router, private authService: AuthService) { }
 

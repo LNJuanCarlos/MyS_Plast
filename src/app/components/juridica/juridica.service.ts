@@ -6,13 +6,15 @@ import { catchError } from 'rxjs/operators';
 import { AuthService } from 'src/app/views/pages/auth/login/auth.service';
 import Swal from 'sweetalert2';
 import { Juridica } from './juridica';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class JuridicaService {
 
-  private urlEndpoint: string = 'http://localhost:8080/juridica';
+  //private urlEndpoint: string = 'http://localhost:8080/juridica';
+  private urlEndpoint: string = `${environment.apiUrl}/juridica`;
 
   constructor(private http: HttpClient, private router: Router, private authService: AuthService) { }
 

@@ -6,13 +6,15 @@ import { catchError } from 'rxjs/operators';
 import { AuthService } from 'src/app/views/pages/auth/login/auth.service';
 import Swal from 'sweetalert2';
 import { OrdenCompra } from './ordencompra';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class OrdencompraService {
 
-  private urlEndpoint: string = 'http://localhost:8080/ordencompra';
+  //private urlEndpoint: string = 'http://localhost:8080/ordencompra';
+  private urlEndpoint: string = `${environment.apiUrl}/ordencompra`;
 
   constructor(private http: HttpClient, private router: Router, private authService: AuthService) { }
 

@@ -6,13 +6,15 @@ import { catchError } from 'rxjs/operators';
 import { AuthService } from 'src/app/views/pages/auth/login/auth.service';
 import Swal from 'sweetalert2';
 import { Provincia } from './provincia';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ProvinciaService {
 
-  private urlEndpoint: string = 'http://localhost:8080/provincia';
+  //private urlEndpoint: string = 'http://localhost:8080/provincia';
+  private urlEndpoint: string = `${environment.apiUrl}/provincia`;
 
   constructor(private http: HttpClient, private router: Router, private authService: AuthService) { }
 

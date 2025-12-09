@@ -6,13 +6,15 @@ import { catchError } from 'rxjs/operators';
 import { AuthService } from 'src/app/views/pages/auth/login/auth.service';
 import Swal from 'sweetalert2';
 import { Departamento } from './departamento';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class DepartamentoService {
 
-  private urlEndpoint: string = 'http://localhost:8080/departamento';
+  //private urlEndpoint: string = 'http://localhost:8080/departamento';
+  private urlEndpoint: string = `${environment.apiUrl}/departamento`;
 
   constructor(private http: HttpClient, private router: Router, private authService: AuthService) { }
 

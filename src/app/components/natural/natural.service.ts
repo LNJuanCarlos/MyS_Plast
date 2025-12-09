@@ -6,13 +6,15 @@ import { catchError } from 'rxjs/operators';
 import { AuthService } from 'src/app/views/pages/auth/login/auth.service';
 import Swal from 'sweetalert2';
 import { Natural } from './natural';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class NaturalService {
 
-  private urlEndpoint: string = 'http://localhost:8080/natural';
+  //private urlEndpoint: string = 'http://localhost:8080/natural';
+  private urlEndpoint: string = `${environment.apiUrl}/natural`;
 
   constructor(private http: HttpClient, private router: Router, private authService: AuthService) { }
 

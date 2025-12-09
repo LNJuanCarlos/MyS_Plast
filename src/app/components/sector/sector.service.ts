@@ -6,13 +6,15 @@ import { catchError } from 'rxjs/operators';
 import { AuthService } from 'src/app/views/pages/auth/login/auth.service';
 import Swal from 'sweetalert2';
 import { Sector } from './sector';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class SectorService {
 
-  private urlEndpoint: string = 'http://localhost:8080/sector';
+  //private urlEndpoint: string = 'http://localhost:8080/sector';
+  private urlEndpoint: string = `${environment.apiUrl}/sector`;
 
   constructor(private http: HttpClient, private router: Router, private authService: AuthService) { }
 

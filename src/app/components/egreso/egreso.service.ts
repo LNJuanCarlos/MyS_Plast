@@ -6,12 +6,14 @@ import Swal from 'sweetalert2';
 import { Router } from '@angular/router';
 import { AuthService } from 'src/app/views/pages/auth/login/auth.service';
 import { Egreso } from './egreso';
+import { environment } from 'src/environments/environment';
 @Injectable({
   providedIn: 'root'
 })
 export class EgresoService {
 
-  private urlEndpoint: string = 'http://localhost:8080/egreso';
+  //private urlEndpoint: string = 'http://localhost:8080/egreso';
+  private urlEndpoint: string = `${environment.apiUrl}/egreso`;
 
   constructor(private http: HttpClient, private router: Router, private authService: AuthService) { }
 

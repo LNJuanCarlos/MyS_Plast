@@ -6,13 +6,15 @@ import Swal from 'sweetalert2';
 import { AuthService } from 'src/app/views/pages/auth/login/auth.service';
 import { Router } from '@angular/router';
 import { Kardex } from '../kardex/kardex';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class KardexService {
 
-  private urlEndpoint: string = 'http://localhost:8080/reporte';
+  //private urlEndpoint: string = 'http://localhost:8080/reporte';
+  private urlEndpoint: string = `${environment.apiUrl}/reporte`;
 
   constructor(private http: HttpClient, private router: Router, private authService: AuthService) { }
 

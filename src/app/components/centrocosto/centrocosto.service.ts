@@ -6,13 +6,15 @@ import { catchError } from 'rxjs/operators';
 import { AuthService } from 'src/app/views/pages/auth/login/auth.service';
 import Swal from 'sweetalert2';
 import { Centrocosto } from './centrocosto';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class CentrocostoService {
 
-  private urlEndpoint: string = 'http://localhost:8080/centrocosto';
+  //private urlEndpoint: string = 'http://localhost:8080/centrocosto';
+  private urlEndpoint: string = `${environment.apiUrl}/centrocosto`;
 
   constructor(private http: HttpClient, private router: Router, private authService: AuthService) { }
 
