@@ -106,7 +106,7 @@
                     </thead>
                     <tbody>
                       <tr *ngFor="let kardex of kardexs">
-                        <td>{{kardex.fecha}}</td>
+                        <td>{{kardex.fecha | date:'yyyy-MM-dd HH:mm:ss' }}</td>
                         <td>{{kardex.id_TRAN.nro_TRAN}}</td>
                         <td>{{kardex.id_SECTOR.id_ALMACEN.nom_ALMACEN}}</td>
                         <td>{{kardex.id_SECTOR.nom_SECTOR}}</td>

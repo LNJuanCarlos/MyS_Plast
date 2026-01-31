@@ -6,7 +6,7 @@ export class Kardex{
     id:number;
     condicion:string;
     operacion:string;
-    fecha:Date;
+    fecha:string;
     stockfecha:number;
     cantidad:number;
     id_SECTOR:Sector;

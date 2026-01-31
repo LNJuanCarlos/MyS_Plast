@@ -27,13 +27,16 @@ declare var $: any;
             this.usuarioService.getRoles().subscribe(rol => this.rol = rol);
           }
 
-          create(id: string):void{
-            this.usuarioService.create(this.usuario,this.roles)
-            .subscribe( usuario => {
-            this.router.navigate(['/generalus/usuario']);
-            swal.fire('Nuevo Usuario', `Usuario ${usuario.username} creado con éxito`, 'success')
-            }
-            )
+          create(id: string): void {
+            this.usuarioService.create(this.usuario, this.roles)
+              .subscribe(() => {
+                this.router.navigate(['/generalus/usuario']);
+                swal.fire(
+                  'Nuevo Usuario',
+                  `Usuario ${this.usuario.username} creado con éxito`,
+                  'success'
+                );
+              });
           }
 
           asignarValorRoles(rol: Rol){

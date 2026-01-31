@@ -43,7 +43,7 @@ export class StockComponent implements OnInit {
     this.almacenService.obtenerAlmacenes().subscribe(almacen => this.almacenes = almacen);
     this.productosFiltrados = this.AutoComplete.valueChanges
     .pipe(
-      map(value => typeof value === 'string' ? value : value.id_producto),
+      map(value => typeof value === 'string' ? value : value.nombre),
       mergeMap(value => value ? this._filter(value) : [])
     );
     this.createDataTable();
@@ -93,8 +93,8 @@ export class StockComponent implements OnInit {
 }
 
 
-asignarValorProducto(id:string):void{
-  this.idProducto = id;
+asignarValorProducto(productoId: string) {
+  this.idProducto = productoId;
 }
 
 limpiarCampos():void{
