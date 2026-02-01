@@ -100,7 +100,7 @@ asignarValorProducto(productoId: string) {
 limpiarCampos():void{
   $(function () {
     $("#almacenes").val('');
-    $("#sectores").val('');
+    $("#sector").val('');
     $("#productos").val('')
   });
 }

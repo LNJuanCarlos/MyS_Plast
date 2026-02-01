@@ -10,6 +10,7 @@ import { Sector } from '../../sector/sector';
 import { SectorService } from '../../sector/sector.service';
 import { Kardex } from '../kardex/kardex';
 import { KardexService } from '../kardex/kardex.service';
+import Swal from 'sweetalert2';
 declare var $: any;
 
 @Component({
@@ -79,20 +80,59 @@ export class KardexComponent implements OnInit {
     $('#kardexs').dataTable().fnDestroy();
   }
 
-  filtrarKardex(sector, almacen, fecha1, fecha2):void{
-    console.log(fecha1)
-    this.kardexservice.obtenerKardexFiltro(sector, almacen, this.idProducto, fecha1, fecha2).subscribe((kardexs) => {
-    this.kardexs = kardexs;
-    console.log(kardexs); 
-    this.deleteTable();
-    this.createDataTable();
-    this.limpiarCampos();
-    this.idProducto = "";
-    this.AutoComplete.setValue('');
-  })          
- 
-}
-
+  filtrarKardex(event: Event): void {
+    event.preventDefault();
+    
+    // Obtener las fechas directamente de los elementos
+    const fecha1Element = document.getElementById('fecha1') as HTMLInputElement;
+    const fecha2Element = document.getElementById('fecha2') as HTMLInputElement;
+    let fecha1 = fecha1Element.value;
+    let fecha2 = fecha2Element.value;
+    
+    // Validaciones
+    if (!this.selectedAlmacen.id_ALMACEN) {
+      Swal.fire('Advertencia', 'Por favor selecciona un almacén', 'warning');
+      return;
+    }
+    
+    if (!this.selectedSector.id_SECTOR) {
+      Swal.fire('Advertencia', 'Por favor selecciona un sector', 'warning');
+      return;
+    }
+    
+    if (!fecha1 || !fecha2) {
+      Swal.fire('Advertencia', 'Por favor selecciona ambas fechas', 'warning');
+      return;
+    }
+  
+    // SOLUCIÓN: Agregar hora a las fechas
+    // Fecha1: inicio del día (00:00:00)
+    fecha1 = fecha1 + ' 00:00:00';
+    
+    // Fecha2: fin del día (23:59:59)
+    fecha2 = fecha2 + ' 23:59:59';
+    
+    console.log('Fecha inicio:', fecha1);
+    console.log('Fecha final:', fecha2);
+  
+    this.kardexservice.obtenerKardexFiltro(
+      this.selectedSector.id_SECTOR,
+      this.selectedAlmacen.id_ALMACEN,
+      this.idProducto || '',
+      fecha1,
+      fecha2
+    ).subscribe(
+      (kardexs) => {
+        this.kardexs = kardexs;
+        this.deleteTable();
+        this.createDataTable();
+      },
+      (error) => {
+        console.error('Error en la petición:', error);
+      }
+    );
+  }
+  
 
 asignarValorProducto(id:string):void{
   this.idProducto = id;

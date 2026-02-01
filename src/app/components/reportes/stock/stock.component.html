@@ -78,6 +78,7 @@
                   <table  id="productostocks" class="table table-striped table-lg text-center">
                     <thead class="bg-primary">
                       <tr>
+                        <th>Código</th>
                         <th>Producto</th>
                         <th>Marca</th>
                         <th>Almacén</th>
@@ -88,6 +89,7 @@
                     </thead>
                     <tbody>
                       <tr *ngFor="let productostock of productostocks">
+                        <td>{{productostock.id_PRODUCTO.codexterno}}</td>
                         <td>{{productostock.id_PRODUCTO.nombre}}</td>
                         <td>{{productostock.id_PRODUCTO.id_MARCA.nom_MARCA}}</td>
                         <td>{{productostock.id_SECTOR.id_ALMACEN.nom_ALMACEN}}</td>

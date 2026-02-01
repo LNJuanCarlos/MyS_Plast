@@ -4,132 +4,135 @@
     <h2 style="font-size: 30px; margin-bottom: 0px;" class="page-title">KARDEX</h2>
   </div>
 </div>
-  
-  <div class="row">
-    <div class="col-md-12 grid-margin stretch-card">
-      <div class="card">
-        <div class="card-body">
-          <h6 style="font-weight: 500; font-size: 16px;" class="card-title">BUSQUEDA PERSONALIZADA</h6>
-          <form>
-            <div class="row">
-              <div class="col-sm-2">
-                <div class="form-group">
-                  <label for="">FECHA INICIO</label>
-                  <div>
-                    <input id="fecha1" type="date" class="form-control" #fecha1>
-                  </div>
+
+<div class="row">
+  <div class="col-md-12 grid-margin stretch-card">
+    <div class="card">
+      <div class="card-body">
+        <h6 style="font-weight: 500; font-size: 16px;" class="card-title">BUSQUEDA PERSONALIZADA</h6>
+        <form>
+          <div class="row">
+            <div class="col-sm-2">
+              <div class="form-group">
+                <label for="">FECHA INICIO</label>
+                <div>
+                  <input id="fecha1" type="date" class="form-control" #fecha1>
                 </div>
-              </div><!-- Col -->
-              <div class="col-sm-2">
-                <div class="form-group">
-                  <label for="">FECHA FINAL</label>
-                  <div>
-                    <input id="fecha2" type="date" class="form-control" #fecha2>
-                  </div>
+              </div>
+            </div><!-- Col -->
+            <div class="col-sm-2">
+              <div class="form-group">
+                <label for="">FECHA FINAL</label>
+                <div>
+                  <input id="fecha2" type="date" class="form-control" #fecha2>
                 </div>
-              </div><!-- Col -->
-              <div class="col-sm-2">
-                <div class="form-group">
-                  <label for="almacen">ALMACÉN</label>
-                  <div>
-                    <select id="almacenes" class="form-control" name="almacen" [(ngModel)]="selectedAlmacen.id_ALMACEN"
-                     (ngModelChange)="handleAlmacenChange($event)" #almacen>
-                      <option *ngFor="let almacen of almacenes" value={{almacen.id_ALMACEN}}>{{almacen.nom_ALMACEN}}
-                      </option>
-                    </select>
-                  </div>
+              </div>
+            </div><!-- Col -->
+            <div class="col-sm-2">
+              <div class="form-group">
+                <label for="almacen">ALMACÉN</label>
+                <div>
+                  <select id="almacenes" class="form-control" name="almacen" [(ngModel)]="selectedAlmacen.id_ALMACEN"
+                    (ngModelChange)="handleAlmacenChange($event)" #almacen>
+                    <option *ngFor="let almacen of almacenes" value={{almacen.id_ALMACEN}}>{{almacen.nom_ALMACEN}}
+                    </option>
+                  </select>
                 </div>
-              </div><!-- Col -->
-              <div class="col-sm-2">
-                <div class="form-group">
-                  <label for="sector">SUB. ALMACÉN</label>
-                  <div>
-                    <select id="sector" class="form-control" [(ngModel)]="selectedSector.id_SECTOR"
-                      name="sector" #sector>
-                      <option *ngFor="let sector of sectores" value={{sector.id_SECTOR}}>
-                        {{sector.nom_SECTOR}}</option>
-                    </select>
-                  </div>
+              </div>
+            </div><!-- Col -->
+            <div class="col-sm-2">
+              <div class="form-group">
+                <label for="sector">SUB. ALMACÉN</label>
+                <div>
+                  <select id="sector" class="form-control" [(ngModel)]="selectedSector.id_SECTOR" name="sector" #sector>
+                    <option *ngFor="let sector of sectores" value={{sector.id_SECTOR}}>
+                      {{sector.nom_SECTOR}}</option>
+                  </select>
                 </div>
-              </div><!-- Col -->
-              <div class="col-sm-2">
-                <div class="form-group">
-                  <label>PRODUCTO</label>
-                  <div>
-                    <input type="text" class="form-control" placeholder="Añadir Item" aria-label="Productos" matInput
-                      [formControl]="AutoComplete" [matAutocomplete]="auto" #producto>
-                  </div>
-                  <mat-autocomplete #auto="matAutocomplete" [displayWith]="mostrarNombre">
-                    <mat-option *ngFor="let producto of productosFiltrados | async" [value]="producto"
-                      (click)="asignarValorProducto(producto.id_PRODUCTO)">
-                      {{producto.nombre}}
-                    </mat-option>
-                  </mat-autocomplete>
+              </div>
+            </div><!-- Col -->
+            <div class="col-sm-2">
+              <div class="form-group">
+                <label>PRODUCTO</label>
+                <div>
+                  <input type="text" class="form-control" placeholder="Añadir Item" aria-label="Productos" matInput
+                    [formControl]="AutoComplete" [matAutocomplete]="auto" #producto>
                 </div>
-              </div><!-- Col -->
-              <div class="col-sm-2">
-                <div class="form-group">
-                  <button style="font-weight: 500; font-size: 14px; margin-top: 30px; background-color: #283593;" type="submit"
-                    class="btn btn-block" role="button"
-                    (click)="filtrarKardex(sector.value, almacen.value, fecha1.value, fecha2.value)">BUSCAR</button>
-                </div>
-              </div><!-- Col -->
-            </div>
-          </form>
-        </div>
+                <mat-autocomplete #auto="matAutocomplete" [displayWith]="mostrarNombre">
+                  <mat-option *ngFor="let producto of productosFiltrados | async" [value]="producto"
+                    (click)="asignarValorProducto(producto.id_PRODUCTO)">
+                    {{producto.nombre}}
+                  </mat-option>
+                </mat-autocomplete>
+              </div>
+            </div><!-- Col -->
+            <div class="col-sm-2">
+              <div class="form-group">
+                <button style="font-weight: 500; font-size: 14px; margin-top: 30px; background-color: #283593;"
+                  type="button" class="btn btn-block" (click)="filtrarKardex($event)">
+                  BUSCAR
+                </button>
+              </div>
+            </div><!-- Col -->
+          </div>
+        </form>
       </div>
     </div>
   </div>
-  
-  <div class="row">
-    <div class="col-md-12 stretch-card">
-      <div class="card">
-        <div class="card-body">
-          <form>
-            <div class="row">
-              <div class="col-sm-12">
-                <div class="table-responsive">
-                  <table id="kardexs" class="table table-striped table-lg text-center">
-                    <thead class="bg-primary">
-                      <tr>
-                        <th>Fecha</th>
-                        <th>Documento</th>
-                        <th>Almacén Origen</th>
-                        <th>Sector Origen</th>
-                        <th>Producto</th>
-                        <th>Und. De Medida</th>
-                        <th>Responsable</th>
-                        <th>Condición</th>
-                        <th>Cantidad</th>
-                        <th>Stock En Fecha</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      <tr *ngFor="let kardex of kardexs">
-                        <td>{{kardex.fecha | date:'yyyy-MM-dd HH:mm:ss' }}</td>
-                        <td>{{kardex.id_TRAN.nro_TRAN}}</td>
-                        <td>{{kardex.id_SECTOR.id_ALMACEN.nom_ALMACEN}}</td>
-                        <td>{{kardex.id_SECTOR.nom_SECTOR}}</td>
-                        <td>{{kardex.id_PRODUCTO.nombre}}</td>
-                        <td>{{kardex.id_PRODUCTO.id_UNMEDIDA.nom_UNMEDIDA}}</td>
-                        <td>{{kardex.id_TRAN.id_PERSONA.nombres +" "+ kardex.id_TRAN.id_PERSONA.ape_PAT +"
-                          "+
-                          kardex.id_TRAN.id_PERSONA.ape_MAT}}
-                        </td>
-                        <td>{{kardex.condicion}}</td>
-                        <td style="color: rgb(36, 185, 36);" *ngIf="kardex.operacion =='S' else elseBlock">{{"+ "+kardex.cantidad}}</td>
-                        <ng-template #elseBlock>
-                          <td style="color: firebrick;">{{"- "+kardex.cantidad}}</td>
-                        </ng-template>
-                        <td>{{kardex.stockfecha}}</td>
-                      </tr>
-                    </tbody>
-                  </table>
-                </div>
-              </div><!-- Col -->
-            </div><!-- Row -->
-          </form>
-        </div>
+</div>
+
+<div class="row">
+  <div class="col-md-12 stretch-card">
+    <div class="card">
+      <div class="card-body">
+        <form>
+          <div class="row">
+            <div class="col-sm-12">
+              <div class="table-responsive">
+                <table id="kardexs" class="table table-striped table-lg text-center">
+                  <thead class="bg-primary">
+                    <tr>
+                      <th>Fecha</th>
+                      <th>Documento</th>
+                      <th>Almacén Origen</th>
+                      <th>Sector Origen</th>
+                      <th>Producto</th>
+                      <th>Und. De Medida</th>
+                      <th>Responsable</th>
+                      <th>Condición</th>
+                      <th>Cantidad</th>
+                      <th>Stock En Fecha</th>
+                      <th>Código</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr *ngFor="let kardex of kardexs">
+                      <td>{{kardex.fecha | date:'yyyy-MM-dd HH:mm:ss' }}</td>
+                      <td>{{kardex.id_TRAN.nro_TRAN}}</td>
+                      <td>{{kardex.id_SECTOR.id_ALMACEN.nom_ALMACEN}}</td>
+                      <td>{{kardex.id_SECTOR.nom_SECTOR}}</td>
+                      <td>{{kardex.id_PRODUCTO.nombre}}</td>
+                      <td>{{kardex.id_PRODUCTO.id_UNMEDIDA.nom_UNMEDIDA}}</td>
+                      <td>{{kardex.id_TRAN.id_PERSONA.nombres +" "+ kardex.id_TRAN.id_PERSONA.ape_PAT +"
+                        "+
+                        kardex.id_TRAN.id_PERSONA.ape_MAT}}
+                      </td>
+                      <td>{{kardex.condicion}}</td>
+                      <td style="color: rgb(36, 185, 36);" *ngIf="kardex.operacion =='S' else elseBlock">{{"+
+                        "+kardex.cantidad}}</td>
+                      <ng-template #elseBlock>
+                        <td style="color: firebrick;">{{"- "+kardex.cantidad}}</td>
+                      </ng-template>
+                      <td>{{kardex.stockfecha}}</td>
+                      <td>{{kardex.id_PRODUCTO.codexterno}}</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div><!-- Col -->
+          </div><!-- Row -->
+        </form>
       </div>
     </div>
   </div>
+</div>
