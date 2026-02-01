@@ -44,7 +44,7 @@ export class AlmacenComponent implements OnInit {
 
     swalWithBootstrapButtons.fire({
       title: 'Estás Seguro?',
-      text: `Está seguro que desea eliminar el centro de costo ${almacen.nom_ALMACEN}?`,
+      text: `Está seguro que desea eliminar el Almacén ${almacen.nom_ALMACEN}?`,
       icon: 'warning',
       showCancelButton: true,
       confirmButtonText: 'Si, Eliminar!',

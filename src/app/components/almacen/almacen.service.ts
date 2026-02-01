@@ -76,8 +76,8 @@ export class AlmacenService {
     );
   }
 
-  actualizarAlmacen(centrocosto: Almacen): Observable<any>{
-    return this.http.put<any>(`${this.urlEndpoint}/actualizar`,centrocosto, {headers: this.agregarAutorizationHeader()}).pipe(
+  actualizarAlmacen(almacen: Almacen): Observable<any>{
+    return this.http.put<any>(`${this.urlEndpoint}/actualizar`,almacen, {headers: this.agregarAutorizationHeader()}).pipe(
       catchError(e => {
         console.error(e.error.mensaje);
         if(this.isNoAutorizado(e)){

@@ -121,7 +121,7 @@ export class JuridicaComponent implements OnInit {
               this.deleteTable();
               this.cargarPersonasJurídicas();
               Swal.fire(
-                'Actaulizado!',
+                'Actualizado!',
                 'Se ha inactivado a la persona jurídica',
                 'success'
               )

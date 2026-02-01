@@ -59,7 +59,7 @@ export class ActividadService {
         if(this.isNoAutorizado(e)){
           return throwError(e);
         }
-        Swal.fire('Error al crear la Actvididad',e.error.mensaje,'error');
+        Swal.fire('Error al crear la Actividad',e.error.mensaje,'error');
         return throwError(e);
       })
     );

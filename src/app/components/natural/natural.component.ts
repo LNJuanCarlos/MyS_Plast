@@ -95,7 +95,7 @@ export class NaturalComponent implements OnInit {
               this.cargarPersonasNaturales();
               Swal.fire(
                 'Actualizado!',
-                'Se ha activado la persona jurídica',
+                'Se ha activado la persona Natural',
                 'success'
               )
             }

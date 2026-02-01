@@ -129,7 +129,7 @@
                                                 <div class="form-group">
                                                     <label for="codexterno">CÓDIGO EXTERNO</label>
                                                     <input type="text" class="form-control"
-                                                        [(ngModel)]="producto.codexterno" name="codexterno" required
+                                                        [(ngModel)]="producto.codexterno" name="codexterno" minlength="9" maxlength="9" required 
                                                         #codexterno="ngModel"
                                                         placeholder="Ingrese el código externo del producto">
                                                 </div>

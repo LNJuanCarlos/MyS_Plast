@@ -57,7 +57,7 @@ export class NaturalService {
         if(this.isNoAutorizado(e)){
           return throwError(e);
         }
-        Swal.fire('Error al crear a la persona jurídica', e.error.mensaje, 'error');
+        Swal.fire('Error al crear a la persona Natural', e.error.mensaje, 'error');
         return throwError(e);
       })
     );

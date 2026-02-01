@@ -66,8 +66,9 @@ export class FormproductoComponent implements OnInit {
   update(): void {
     this.productoService.actualizarProducto(this.producto)
       .subscribe(json => {
-        Swal.fire('Producto Actualizado', `${json.mensaje}: ${json.producto.nombre} `, 'success')
+        
         this.cerrarModal();
+        Swal.fire('Producto Actualizado', `${json.mensaje}: ${json.producto.nombre} `, 'success')
       })
   }
   

@@ -77,8 +77,8 @@ export class ProductoService {
     );
   }
 
-  actualizarProducto(centrocosto: Producto): Observable<any>{
-    return this.http.put<any>(`${this.urlEndpoint}/actualizar`,centrocosto, {headers: this.agregarAutorizationHeader()}).pipe(
+  actualizarProducto(producto: Producto): Observable<any>{
+    return this.http.put<any>(`${this.urlEndpoint}/actualizar`,producto, {headers: this.agregarAutorizationHeader()}).pipe(
       catchError(e => {
         console.error(e.error.mensaje);
         if(this.isNoAutorizado(e)){
