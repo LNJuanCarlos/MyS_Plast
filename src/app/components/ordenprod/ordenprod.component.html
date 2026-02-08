@@ -115,7 +115,7 @@
                     </thead>
                     <tbody>
                       <tr *ngFor="let ordenprod of ordenprods">
-                        <td>{{ordenprod.fecha}}</td>
+                        <td>{{ordenprod.fecha | date:'yyyy-MM-dd HH:mm:ss'}}</td>
                         <td>{{ordenprod.nro_ORDENPROD}}</td>
                         <td>{{ordenprod.id_SECTOR.id_ALMACEN.nom_ALMACEN}}</td>
                         <td>{{ordenprod.id_SECTOR.nom_SECTOR}}</td>

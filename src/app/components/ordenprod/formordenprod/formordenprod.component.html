@@ -25,7 +25,7 @@
             </div>
         </div>
 
-        
+
         <div class="alert alert-danger alert-dismissible"
             *ngIf="desc_ORDENCOMPRA.invalid && (desc_ORDENCOMPRA.dirty || desc_ORDENCOMPRA.touched)">
             <div *ngIf="desc_ORDENCOMPRA.errors.required">
@@ -53,8 +53,8 @@
                                 <div class="form-group">
                                     <label for="nombre1">FECHA</label>
                                     <div>
-                                        <input type="date" class="form-control" [(ngModel)]="ordenprod.fecha"
-                                            name="fecha" #fechas="ngModel" required>
+                                        <input type="date" class="form-control" [(ngModel)]="fechaSoloOP" name="fecha"
+                                            #fechas="ngModel" required>
                                     </div>
                                 </div>
                             </div>
@@ -78,7 +78,7 @@
                                     <select class="form-control" [(ngModel)]="selectedAlmacen.id_ALMACEN"
                                         #almacenes="ngModel" required name="almacen"
                                         (ngModelChange)="handleAlmacenChange($event)">
-                                        
+
                                         <option *ngFor="let almacen of almacen" value={{almacen.id_ALMACEN}}>
                                             {{almacen.nom_ALMACEN}}</option>
                                     </select>
@@ -87,8 +87,8 @@
                             <div class="form-group">
                                 <label for="sector">SECTOR DESTINO</label>
                                 <div>
-                                    <select class="form-control" [(ngModel)]="ordenprod.id_SECTOR"
-                                        #sectores="ngModel" required name="sector">
+                                    <select class="form-control" [(ngModel)]="ordenprod.id_SECTOR" #sectores="ngModel"
+                                        required name="sector">
                                         <option *ngFor="let sector of sector" [ngValue]="sector">
                                             {{sector.nom_SECTOR}}</option>
                                     </select>
@@ -107,7 +107,8 @@
                             <div class="form-group">
                                 <label for="descripcion">DESCRIPCIÓN</label>
                                 <div>
-                                    <input  #desc_ORDENCOMPRA="ngModel" type="text" class="form-control" required name="desc_ORDENCOMPRA" [(ngModel)]="ordenprod.desc_ORDENPROD">
+                                    <input #desc_ORDENCOMPRA="ngModel" type="text" class="form-control" required
+                                        name="desc_ORDENCOMPRA" [(ngModel)]="ordenprod.desc_ORDENPROD">
                                 </div>
                             </div>
                         </form>
@@ -194,7 +195,8 @@
                                                         <div class="col-sm-6">
                                                             <div class="form-group">
                                                                 <input style="font-weight: 500; font-size: 14px;"
-                                                                    type="submit" value="VOLVER" [routerLink]="['/generalop/ordenprod']"
+                                                                    type="submit" value="VOLVER"
+                                                                    [routerLink]="['/generalop/ordenprod']"
                                                                     class="btn btn-block btn-outline-primary">
                                                             </div>
                                                         </div><!-- Col -->

@@ -143,13 +143,13 @@ eliminarItemSalida(id: string):void{
 
 create(): void {
 
-  // 🔹 Obtener hora actual
+  // Obtener hora actual
   const ahora = new Date();
   const hora =
     ahora.getHours().toString().padStart(2, '0') + ':' +
     ahora.getMinutes().toString().padStart(2, '0');
 
-  // 🔹 Armar LocalDateTime compatible con Spring Boot
+  // Armar LocalDateTime compatible con Spring Boot
   // yyyy-MM-ddTHH:mm
   this.egreso.fechatran = `${this.fechaSoloe}T${hora}`;
 

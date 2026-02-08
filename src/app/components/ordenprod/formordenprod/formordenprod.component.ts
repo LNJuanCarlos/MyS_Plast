@@ -30,6 +30,8 @@ declare var $: any;
 export class FormordenprodComponent implements OnInit {
   ordenprod: Ordenprod = new Ordenprod();
 
+  fechaSoloOP: string; // yyyy-MM-dd
+
   sector: Sector[];
   sectorinsumos: Sector[];
   
@@ -131,6 +133,18 @@ export class FormordenprodComponent implements OnInit {
   }
   
   create(): void{
+
+    
+  // Obtener hora actual
+  const ahora = new Date();
+  const hora =
+    ahora.getHours().toString().padStart(2, '0') + ':' +
+    ahora.getMinutes().toString().padStart(2, '0');
+
+  // Armar LocalDateTime compatible con Spring Boot
+  // yyyy-MM-ddTHH:mm
+  this.ordenprod.fecha = `${this.fechaSoloOP}T${hora}`;
+
    let total = this.ordenprod
    this.ordenprodservice.crearOrdenprod(this.ordenprod).subscribe(ordenprod=>{
      this.router.navigate(['/generalop/ordenprod']);

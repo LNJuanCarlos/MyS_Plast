@@ -5,7 +5,7 @@ import { Sector } from "../sector/sector";
 export class Ordenprod{
 
     id_ORDENPROD:string;
-    fecha:Date;
+    fecha:string;
     nro_ORDENPROD:string;
     estado:string;
     desc_ORDENPROD:string;
