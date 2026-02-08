@@ -7,7 +7,7 @@ import { Tipotransaccion } from "../tipotransaccion/tipotransaccion";
 export class Transaccion{
     id_TRAN: string;
     nro_TRAN: string;
-    fechatran: Date;
+    fechatran: string;
     desc_TRAN: string;
     estado: string;
     reg_USER: string;

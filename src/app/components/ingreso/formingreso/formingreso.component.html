@@ -36,8 +36,8 @@
                                 <div class="form-group">
                                     <label for="nombre1">FECHA</label>
                                     <div>
-                                        <input type="date" class="form-control" [(ngModel)]="ingreso.fechatran"
-                                            name="fecha" #fechas="ngModel" required>
+                                        <input type="date" class="form-control" [(ngModel)]="fechaSolo" name="fecha"
+                                            #fechas="ngModel" required>
                                     </div>
                                 </div>
                             </div>
@@ -45,7 +45,8 @@
                                 <label for="persona">RESPONSABLE</label>
                                 <div class="row">
                                     <div class="col-auto">
-                                        <button style="font-weight: 500; font-size: 13px;" type="button" class="btn btn-outline-primary"
+                                        <button style="font-weight: 500; font-size: 13px;" type="button"
+                                            class="btn btn-outline-primary"
                                             (click)="abrirModalNatural()">SELECCIONAR</button>
                                     </div>
                                     <div class="col">
@@ -68,8 +69,8 @@
                             <div class="form-group">
                                 <label for="subalmacen">SECTOR</label>
                                 <div>
-                                    <select class="form-control" [(ngModel)]="ingreso.id_SECTOR"
-                                        #sectores="ngModel" required name="subalmacen">
+                                    <select class="form-control" [(ngModel)]="ingreso.id_SECTOR" #sectores="ngModel"
+                                        required name="subalmacen">
                                         <option *ngFor="let sector of sector" [ngValue]="sector">
                                             {{sector.nom_SECTOR}}</option>
                                     </select>
@@ -90,11 +91,13 @@
                                 <label for="empresa">EMPRESA</label>
                                 <div class="row">
                                     <div class="col-auto">
-                                        <button style="font-weight: 500; font-size: 13px;" type="button" class="btn btn-outline-primary"
+                                        <button style="font-weight: 500; font-size: 13px;" type="button"
+                                            class="btn btn-outline-primary"
                                             (click)="abrirModalJuridica()">SELECCIONAR</button>
                                     </div>
                                     <div class="col">
-                                        <input type="text" class="form-control" required id="empresa" name="empresa" readonly>
+                                        <input type="text" class="form-control" required id="empresa" name="empresa"
+                                            readonly>
                                     </div>
                                 </div>
                             </div>
@@ -145,11 +148,11 @@
                                             <table class="table table-striped table-lg text-center">
                                                 <thead class="bg-primary">
                                                     <tr>
-                                                        <th >Línea</th>
+                                                        <th>Línea</th>
                                                         <th class="sorting col-sm-5">Producto</th>
                                                         <th class="sorting col-sm-2">Cantidad</th>
-                                                        <th >Und. Medida</th>
-                                                        <th >Eliminar</th>
+                                                        <th>Und. Medida</th>
+                                                        <th>Eliminar</th>
                                                     </tr>
                                                 </thead>
                                                 <tbody>
@@ -162,8 +165,10 @@
                                                         </td>
                                                         <td>{{item.id_PRODUCTO.id_UNMEDIDA.nom_UNMEDIDA}}</td>
                                                         <td>
-                                                            <button class="btn btn-primary btn-sm btn-icon" type="button"
-                                                                (click)="eliminarItemIngreso(item.id_PRODUCTO.id_PRODUCTO)"><i class="feather icon-x-square"></i></button>
+                                                            <button class="btn btn-primary btn-sm btn-icon"
+                                                                type="button"
+                                                                (click)="eliminarItemIngreso(item.id_PRODUCTO.id_PRODUCTO)"><i
+                                                                    class="feather icon-x-square"></i></button>
                                                         </td>
                                                     </tr>
                                                 </tbody>
@@ -181,7 +186,8 @@
                                                     <div class="row">
                                                         <div class="col-sm-6">
                                                             <div class="form-group">
-                                                                <input style="font-weight: 500; font-size: 14px;" type="submit" value="REGISTRAR INGRESO"
+                                                                <input style="font-weight: 500; font-size: 14px;"
+                                                                    type="submit" value="REGISTRAR INGRESO"
                                                                     class="btn btn-block  btn-outline-success"
                                                                     [disabled]="role.form.invalid || ingreso.items.length == 0"
                                                                     (click)="create()">
@@ -189,7 +195,9 @@
                                                         </div><!-- Col -->
                                                         <div class="col-sm-6">
                                                             <div class="form-group">
-                                                                <input style="font-weight: 500; font-size: 14px;" [routerLink]="['/generalwi/ingreso']" type="submit" value="VOLVER"
+                                                                <input style="font-weight: 500; font-size: 14px;"
+                                                                    [routerLink]="['/generalwi/ingreso']" type="submit"
+                                                                    value="VOLVER"
                                                                     class="btn btn-block btn-outline-primary">
                                                             </div>
                                                         </div><!-- Col -->

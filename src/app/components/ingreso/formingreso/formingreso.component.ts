@@ -30,6 +30,8 @@ export class FormingresoComponent implements OnInit {
 
  //SE INYECTA LA CLASE PERSONA
 
+ fechaSolo: string; // yyyy-MM-dd
+
  ingreso: Ingreso = new Ingreso();
 
  sector: Sector[];
@@ -136,11 +138,26 @@ eliminarItemIngreso(id: string):void{
   this.ingreso.items = this.ingreso.items.filter((item: Itemtransaccion)=> id !== item.id_PRODUCTO.id_PRODUCTO);
 }
 
-create(): void{
-  this.ingresoservice.crearWhingreso(this.ingreso).subscribe(ingreso=>{
+create(): void {
+
+  // Obtener hora actual
+  const ahora = new Date();
+  const hora =
+    ahora.getHours().toString().padStart(2, '0') + ':' +
+    ahora.getMinutes().toString().padStart(2, '0');
+
+  // Armar LocalDateTime compatible con Spring Boot
+  // yyyy-MM-ddTHH:mm
+  this.ingreso.fechatran = `${this.fechaSolo}T${hora}`;
+
+  this.ingresoservice.crearWhingreso(this.ingreso).subscribe(ingreso => {
     this.router.navigate(['/generalwi/ingreso']);
-    Swal.fire('Ingreso Registrado', `El Ingreso de Mercaderia se ha registrado con Éxito!`, 'success')
-  })
+    Swal.fire(
+      'Ingreso Registrado',
+      'El Ingreso de Mercadería se ha registrado con Éxito!',
+      'success'
+    );
+  });
 }
 
 actualizarCamposJuridica():void{

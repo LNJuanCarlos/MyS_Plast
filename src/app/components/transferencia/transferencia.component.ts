@@ -106,10 +106,10 @@ export class TransferenciaComponent implements OnInit {
   createDataTable() {
 
     $(function () {
-      $("#transferencias").DataTable({
+      $("#whtransferencias").DataTable({
         "responsive": false, "lengthChange": false, "autoWidth": false,
         "buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"]
-      }).buttons().container().appendTo('#transferencias_wrapper .col-md-6:eq(0)');
+      }).buttons().container().appendTo('#whtransferencias_wrapper .col-md-6:eq(0)');
       /*    
          $('#example1').dataTable().fnClearTable();
          $('#example1').dataTable().fnDestroy(); */
@@ -118,7 +118,7 @@ export class TransferenciaComponent implements OnInit {
 
   }
   deleteTable() {
-    $('#transferencias').dataTable().fnDestroy();
+    $('#whtransferencias').dataTable().fnDestroy();
   }
 
   filtrarWhtransferencias(sector, almacen, fecha1, fecha2):void{

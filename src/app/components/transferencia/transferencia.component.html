@@ -100,7 +100,7 @@
                     </thead>
                     <tbody>
                       <tr *ngFor="let transferencia of transferencias">
-                        <td>{{transferencia.fechatran}}</td>
+                        <td>{{transferencia.fechatran | date:'yyyy-MM-dd HH:mm:ss'}}</td>
                         <td>{{transferencia.nro_TRAN}}</td>
                         <td>{{transferencia.id_SECTOR.id_ALMACEN.nom_ALMACEN}}</td>
                         <td>{{transferencia.id_SECTOR.nom_SECTOR}}</td>

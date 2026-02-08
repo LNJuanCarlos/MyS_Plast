@@ -58,8 +58,8 @@ import { Ordenprod } from './ordenprod/ordenprod';*/
     );
   }
 
-  private transFormDate(date: Date): any {
-    return this.datePipe.transform(date, 'yyyy-MM-dd');
+  private transFormDate(date: string | Date): string {
+    return this.datePipe.transform(date, 'yyyy-MM-dd HH:mm:ss') || '';
   }
 
   createImageFromBlob(image: Blob) {

@@ -99,7 +99,7 @@
                     </thead>
                     <tbody>
                       <tr *ngFor="let ingreso of ingresos">
-                        <td>{{ingreso.fechatran}}</td>
+                        <td>{{ingreso.fechatran  | date:'yyyy-MM-dd HH:mm:ss'}}</td>
                         <td>{{ingreso.nro_TRAN}}</td>
                         <td>{{ingreso.id_SECTOR.id_ALMACEN.nom_ALMACEN}}</td>
                         <td>{{ingreso.id_SECTOR.nom_SECTOR}}</td>

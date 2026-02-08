@@ -99,7 +99,7 @@
                     </thead>
                     <tbody>
                       <tr *ngFor="let egreso of egresos">
-                        <td>{{egreso.fechatran}}</td>
+                        <td>{{egreso.fechatran | date:'yyyy-MM-dd HH:mm:ss'}}</td>
                         <td>{{egreso.nro_TRAN}}</td>
                         <td>{{egreso.id_SECTOR.id_ALMACEN.nom_ALMACEN}}</td>
                         <td>{{egreso.id_SECTOR.nom_SECTOR}}</td>

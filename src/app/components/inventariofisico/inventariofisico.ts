@@ -10,7 +10,7 @@ export class Inventariofisico{
     mod_USER: string;
     fech_MOD_USER: string;
     nroinventario: string;
-    fecha:Date;
+    fecha:string;
     estado:string;
     responsable:Natural;
     id_SECTOR:Sector;

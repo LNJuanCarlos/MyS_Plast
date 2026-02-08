@@ -31,6 +31,8 @@ export class FormegresoComponent implements OnInit {
 
  //SE INYECTA LA CLASE PERSONA
 
+ fechaSoloe: string; // yyyy-MM-dd
+
  egreso: Egreso = new Egreso();
 
  sector: Sector[];
@@ -139,12 +141,28 @@ eliminarItemSalida(id: string):void{
   this.egreso.items = this.egreso.items.filter((item: Itemtransaccion)=> id !== item.id_PRODUCTO.id_PRODUCTO);
 }
 
-create(): void{
-  this.egresoservice.crearEgreso(this.egreso).subscribe(egreso=>{
+create(): void {
+
+  // 🔹 Obtener hora actual
+  const ahora = new Date();
+  const hora =
+    ahora.getHours().toString().padStart(2, '0') + ':' +
+    ahora.getMinutes().toString().padStart(2, '0');
+
+  // 🔹 Armar LocalDateTime compatible con Spring Boot
+  // yyyy-MM-ddTHH:mm
+  this.egreso.fechatran = `${this.fechaSoloe}T${hora}`;
+
+  this.egresoservice.crearEgreso(this.egreso).subscribe(egreso => {
     this.router.navigate(['/generalws/egreso']);
-    Swal.fire('Salida Registrada', `La Salida de Mercadería se ha registrado con Éxito!`, 'success')
-  })
+    Swal.fire(
+      'Salida Registrada',
+      'La Salida de Mercadería se ha registrado con Éxito!',
+      'success'
+    );
+  });
 }
+
 
 actualizarCamposNatural():void{
   let nombre = this.egreso.id_PERSONA.nombres + ' ' + this.egreso.id_PERSONA.ape_PAT + ' ' + this.egreso.id_PERSONA.ape_MAT;

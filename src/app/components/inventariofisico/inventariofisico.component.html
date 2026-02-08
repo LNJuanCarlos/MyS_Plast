@@ -99,7 +99,7 @@
                     </thead>
                     <tbody>
                       <tr *ngFor="let inventariofisico of inventariofisicos">
-                        <td>{{inventariofisico.fecha}}</td>
+                        <td>{{inventariofisico.fecha | date:'yyyy-MM-dd HH:mm:ss'}}</td>
                         <td>{{inventariofisico.nroinventario}}</td>
                         <td>{{inventariofisico.id_SECTOR.id_ALMACEN.nom_ALMACEN}}</td>
                         <td>{{inventariofisico.id_SECTOR.nom_SECTOR}}</td>

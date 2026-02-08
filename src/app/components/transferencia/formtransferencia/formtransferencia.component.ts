@@ -30,6 +30,8 @@ export class FormtransferenciaComponent implements OnInit {
 
  //SE INYECTA LA CLASE PERSONA
 
+ fechaSoloT: string; // yyyy-MM-dd
+
  transferencia: Transferencia = new Transferencia();
 
  sector: Sector[];
@@ -143,12 +145,28 @@ eliminarItemTransferencia(id: string):void{
   this.transferencia.items = this.transferencia.items.filter((item: Itemtransaccion)=> id !== item.id_PRODUCTO.id_PRODUCTO);
 }
 
-create(): void{
-  this.transferenciaservice.crearTransferencia(this.transferencia).subscribe(transferencia=>{
+create(): void {
+
+  // 🔹 Obtener hora actual
+  const ahora = new Date();
+  const hora =
+    ahora.getHours().toString().padStart(2, '0') + ':' +
+    ahora.getMinutes().toString().padStart(2, '0');
+
+  // 🔹 Armar LocalDateTime compatible con Spring Boot
+  // yyyy-MM-ddTHH:mm
+  this.transferencia.fechatran = `${this.fechaSoloT}T${hora}`;
+
+  this.transferenciaservice.crearTransferencia(this.transferencia).subscribe(transferencia => {
     this.router.navigate(['/generalwt/transferencia']);
-    Swal.fire('Transferencia Registrada', `La Transferencia de Mercaderia se ha registrado con Éxito!`, 'success')
-  })
+    Swal.fire(
+      'Transferencia Registrada',
+      'La Transferencia de Mercaderia se ha registrado con Éxito!',
+      'success'
+    );
+  });
 }
+
 
 actualizarCamposNatural():void{
   let nombre = this.transferencia.id_PERSONA.nombres + ' ' + this.transferencia.id_PERSONA.ape_PAT + ' ' + this.transferencia.id_PERSONA.ape_MAT;

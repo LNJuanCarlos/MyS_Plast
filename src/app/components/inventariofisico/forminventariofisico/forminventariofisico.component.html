@@ -39,8 +39,8 @@
                                 <div class="form-group">
                                     <label for="nombre1">FECHA</label>
                                     <div>
-                                        <input type="date" class="form-control" [(ngModel)]="inventariofisico.fecha"
-                                            name="fecha" #fechas="ngModel" required>
+                                        <input type="date" class="form-control" [(ngModel)]="fechaSoloIn" name="fecha"
+                                            #fechas="ngModel" required>
                                     </div>
                                 </div>
                             </div>
@@ -64,7 +64,7 @@
                                     <select class="form-control" [(ngModel)]="selectedAlmacen.id_ALMACEN"
                                         #almacenes="ngModel" required name="almacen"
                                         (ngModelChange)="handleAlmacenChange($event)">
-                                        
+
                                         <option *ngFor="let almacen of almacen" value={{almacen.id_ALMACEN}}>
                                             {{almacen.nom_ALMACEN}}</option>
                                     </select>
@@ -74,16 +74,17 @@
                                 <label for="sector">SECTOR</label>
                                 <div>
                                     <select class="form-control" [(ngModel)]="inventariofisico.id_SECTOR"
-                                    (ngModelChange)="obtenerProductosFiltrados($event)" #sectores="ngModel" required name="sector">
-                                        <option *ngFor="let sector of sector" [ngValue]="sector" >
+                                        (ngModelChange)="obtenerProductosFiltrados($event)" #sectores="ngModel" required
+                                        name="sector">
+                                        <option *ngFor="let sector of sector" [ngValue]="sector">
                                             {{sector.nom_SECTOR}}</option>
                                     </select>
                                 </div>
                             </div>
                             <div class="form-group">
-                                <button style="font-weight: 500; font-size: 14px;background-color: #283593;" type="button" class="btn btn-block"
-                    role="button"
-                    (click)="cargarDataTabla()">BUSCAR</button>
+                                <button style="font-weight: 500; font-size: 14px;background-color: #283593;"
+                                    type="button" class="btn btn-block" role="button"
+                                    (click)="cargarDataTabla()">BUSCAR</button>
                             </div>
                         </form>
                     </div>
@@ -98,7 +99,8 @@
                                 <div class="card">
                                     <div class="card-body">
                                         <div class="form-group">
-                                            <table id="inventariofisico"  class="table table-striped table-lg text-center">
+                                            <table id="inventariofisico"
+                                                class="table table-striped table-lg text-center">
                                                 <thead class="bg-primary">
                                                     <tr>
                                                         <th class="col-sm-3">Producto</th>
@@ -114,11 +116,14 @@
                                                         <td>{{item.id_PRODUCTO.nombre}}</td>
                                                         <td>{{item.id_PRODUCTO.id_UNMEDIDA.nom_UNMEDIDA}}</td>
                                                         <td>{{item.cantidadsistema}}</td>
-                                                        <td><input type="number" class="form-control" value="{{item.cantidad}}"
-                                                            name="cantidad"  (change)="actualizarCantidad(item.id_PRODUCTO.id_PRODUCTO, $event)" required></td>
-                                                            <td>{{item.diferencia}}</td>
-                                                        <td><input type="text" class="form-control"
-                                                            name="observacion" (change)="actualizarObservacion(item.id_PRODUCTO.id_PRODUCTO, $event)" ></td>
+                                                        <td><input type="number" class="form-control"
+                                                                value="{{item.cantidad}}" name="cantidad"
+                                                                (change)="actualizarCantidad(item.id_PRODUCTO.id_PRODUCTO, $event)"
+                                                                required></td>
+                                                        <td>{{item.diferencia}}</td>
+                                                        <td><input type="text" class="form-control" name="observacion"
+                                                                (change)="actualizarObservacion(item.id_PRODUCTO.id_PRODUCTO, $event)">
+                                                        </td>
                                                     </tr>
                                                 </tbody>
                                             </table>
@@ -145,7 +150,8 @@
                                                         <div class="col-sm-6">
                                                             <div class="form-group">
                                                                 <input style="font-weight: 500; font-size: 14px;"
-                                                                    type="submit" value="VOLVER" [routerLink]="['/generalif/inventariofisico']"
+                                                                    type="submit" value="VOLVER"
+                                                                    [routerLink]="['/generalif/inventariofisico']"
                                                                     class="btn btn-block btn-outline-primary">
                                                             </div>
                                                         </div><!-- Col -->
