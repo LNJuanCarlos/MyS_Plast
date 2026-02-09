@@ -18,6 +18,7 @@ import { CategoriatransaccionService } from '../../categoriatransaccion/categori
 import { SectorService } from '../../sector/sector.service';
 import { AlmacenService } from '../../almacen/almacen.service';
 import { Itemtransaccion } from '../../itemtransaccion/itemtransaccion';
+import { KardexService } from '../../reportes/kardex/kardex.service';
 declare var $: any;
 
 
@@ -51,7 +52,7 @@ selectedAlmacendest: Almacen = { id_ALMACEN: '', nom_ALMACEN: '', estado: '',reg
 AutoComplete = new FormControl();
 productosFiltrados: Observable<Producto[]>;
 
-constructor(private transferenciaservice: TransferenciaService, private router: Router, public modalService: ModalService, public almacenService: AlmacenService,
+constructor(private kardexService: KardexService, private transferenciaservice: TransferenciaService, private router: Router, public modalService: ModalService, public almacenService: AlmacenService,
   public sectorService: SectorService, public categoriastransaccionService: CategoriatransaccionService, public productoService: ProductoService) { }
 
 ngOnInit(): void {
@@ -86,7 +87,7 @@ mostrarNombre(producto?: Producto): string | undefined {
   return producto ? producto.nombre : undefined;
 }
 
-seleccionarProducto(event: MatAutocompleteSelectedEvent): void {
+/*seleccionarProducto(event: MatAutocompleteSelectedEvent): void {
   let producto = event.option.value as Producto;
 
   if(this.existeItem(producto.id_PRODUCTO)){
@@ -97,6 +98,34 @@ seleccionarProducto(event: MatAutocompleteSelectedEvent): void {
   nuevoItem.id_PRODUCTO = producto;
   this.transferencia.items.push(nuevoItem);
   }
+
+  this.AutoComplete.setValue('');
+  event.option.focus();
+  event.option.deselect();
+}*/
+
+seleccionarProducto(event: MatAutocompleteSelectedEvent): void {
+  const producto = event.option.value;
+
+  if (!this.transferencia.id_SECTOR) {
+    Swal.fire('Advertencia', 'Seleccione un sector primero', 'warning');
+    return;
+  }
+
+  // evitar duplicados
+  if (this.existeItem(producto.id_PRODUCTO)) {
+    this.incrementaCantidad(producto.id_PRODUCTO);
+    return;
+  }
+
+  const item = new Itemtransaccion();
+  item.linea = this.transferencia.items.length + 1;
+  item.id_PRODUCTO = producto;
+  item.cantidad = null;
+
+  this.transferencia.items.push(item);
+
+  this.obtenerStockProducto(item);
 
   this.AutoComplete.setValue('');
   event.option.focus();
@@ -147,13 +176,13 @@ eliminarItemTransferencia(id: string):void{
 
 create(): void {
 
-  // 🔹 Obtener hora actual
+  // Obtener hora actual
   const ahora = new Date();
   const hora =
     ahora.getHours().toString().padStart(2, '0') + ':' +
     ahora.getMinutes().toString().padStart(2, '0');
 
-  // 🔹 Armar LocalDateTime compatible con Spring Boot
+  // Armar LocalDateTime compatible con Spring Boot
   // yyyy-MM-ddTHH:mm
   this.transferencia.fechatran = `${this.fechaSoloT}T${hora}`;
 
@@ -180,6 +209,23 @@ actualizarCamposNatural():void{
   abrirModalNatural(){
     this.naturalSeleccionada = new Natural();
     this.modalService.abrirModal2();
+  }
+
+  obtenerStockProducto(item: Itemtransaccion): void {
+
+    if (!this.transferencia?.id_SECTOR || !item?.id_PRODUCTO) {
+      item.stockActual = 0;
+      return;
+    }
+  
+    this.kardexService
+      .obtenerStockActual(
+        this.transferencia.id_SECTOR.id_SECTOR,
+        item.id_PRODUCTO.id_PRODUCTO
+      )
+      .subscribe(stock => {
+        item.stockActual = stock;
+      });
   }
 
 }

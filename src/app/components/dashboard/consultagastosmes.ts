@@ -1,6 +1,6 @@
 export class ConsultaGastosMes {
 
-    mes: string;
+    mes: number;
     total: number;
 
 }

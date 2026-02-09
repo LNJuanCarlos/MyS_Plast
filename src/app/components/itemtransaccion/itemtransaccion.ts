@@ -8,5 +8,6 @@ export class Itemtransaccion{
     lote: string;
     id_PRODUCTO: Producto;
     id_TRAN: string;
+    stockActual?: number; //
 
 }

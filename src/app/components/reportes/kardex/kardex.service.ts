@@ -60,4 +60,12 @@ export class KardexService {
     );
   }
 
+
+  obtenerStockActual(sector: string, producto: string): Observable<number> {
+    return this.http.get<number>(
+      `${this.urlEndpoint}/stock-actual?sector=${sector}&producto=${producto}`,
+      { headers: this.agregarAutorizationHeader() }
+    );
+  }
+
 }

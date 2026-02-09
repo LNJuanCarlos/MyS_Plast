@@ -19,6 +19,7 @@ import { Sector } from '../../sector/sector';
 import { SectorService } from '../../sector/sector.service';
 import { Egreso } from '../egreso';
 import { EgresoService } from '../egreso.service';
+import { KardexService } from '../../reportes/kardex/kardex.service';
 import Swal from 'sweetalert2';
 declare var $: any;
 
@@ -30,6 +31,8 @@ declare var $: any;
 export class FormegresoComponent implements OnInit {
 
  //SE INYECTA LA CLASE PERSONA
+
+ stockActual: number = 0;
 
  fechaSoloe: string; // yyyy-MM-dd
 
@@ -49,7 +52,7 @@ export class FormegresoComponent implements OnInit {
 AutoComplete = new FormControl();
 productosFiltrados: Observable<Producto[]>;
 
-constructor(private egresoservice: EgresoService, private router: Router, public modalService: ModalService, public almacenService: AlmacenService,
+constructor(private kardexService: KardexService ,private egresoservice: EgresoService, private router: Router, public modalService: ModalService, public almacenService: AlmacenService,
   public sectorService: SectorService, public categoriastransaccionService: CategoriatransaccionService, public productoService: ProductoService,
   public centrocostoService: CentrocostoService) { }
 
@@ -83,16 +86,27 @@ mostrarNombre(producto?: Producto): string | undefined {
 }
 
 seleccionarProducto(event: MatAutocompleteSelectedEvent): void {
-  let producto = event.option.value as Producto;
+  const producto = event.option.value;
 
-  if(this.existeItem(producto.id_PRODUCTO)){
-    this.incrementaCantidad(producto.id_PRODUCTO);
-  } else {
-  let nuevoItem = new Itemtransaccion();
-  nuevoItem.linea = this.egreso.items.length + 1;
-  nuevoItem.id_PRODUCTO = producto;
-  this.egreso.items.push(nuevoItem);
+  if (!this.egreso.id_SECTOR) {
+    Swal.fire('Advertencia', 'Seleccione un sector primero', 'warning');
+    return;
   }
+
+  // evitar duplicados
+  if (this.existeItem(producto.id_PRODUCTO)) {
+    this.incrementaCantidad(producto.id_PRODUCTO);
+    return;
+  }
+
+  const item = new Itemtransaccion();
+  item.linea = this.egreso.items.length + 1;
+  item.id_PRODUCTO = producto;
+  item.cantidad = null;
+
+  this.egreso.items.push(item);
+
+  this.obtenerStockProducto(item);
 
   this.AutoComplete.setValue('');
   event.option.focus();
@@ -176,6 +190,30 @@ actualizarCamposNatural():void{
   abrirModalNatural(){
     this.naturalSeleccionada = new Natural();
     this.modalService.abrirModal2();
+  }
+
+  obtenerStockProducto(item: Itemtransaccion): void {
+
+    if (!this.egreso?.id_SECTOR || !item?.id_PRODUCTO) {
+      item.stockActual = 0;
+      return;
+    }
+  
+    this.kardexService
+      .obtenerStockActual(
+        this.egreso.id_SECTOR.id_SECTOR,
+        item.id_PRODUCTO.id_PRODUCTO
+      )
+      .subscribe(stock => {
+        item.stockActual = stock;
+      });
+  }
+
+  limpiarCampos():void{
+    $(function () {
+      $("#Añadir Item").val('');
+      
+    });
   }
 
 }

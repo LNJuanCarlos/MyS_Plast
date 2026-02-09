@@ -61,7 +61,7 @@ export class IngresoComponent implements OnInit {
       showCancelButton: true,
       confirmButtonColor: '#3085d6',
       cancelButtonColor: '#d33',
-      confirmButtonText: 'Si, actualizar!'
+      confirmButtonText: 'Si, Anular!'
     }).then((result) => {
       if (result.isConfirmed) {
           ingreso.estado = "N"
@@ -130,7 +130,7 @@ limpiarCampos():void{
   $(function () {
     $("#almacenes").val('');
     $("#fecha1").val('');
-    $("#sectores").val('');
+    $("#sector").val('');
     $("#fecha2").val('')
   });
 }

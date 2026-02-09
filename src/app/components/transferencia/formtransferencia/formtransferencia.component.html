@@ -153,6 +153,7 @@
                                                     <tr>
                                                         <th>Línea</th>
                                                         <th class="sorting col-sm-5">Producto</th>
+                                                        <th class="sorting col-sm-5">Stock</th>
                                                         <th class="sorting col-sm-2">Cantidad</th>
                                                         <th>Und. Medida</th>
                                                         <th>Eliminar</th>
@@ -162,6 +163,7 @@
                                                     <tr *ngFor="let item of transferencia.items">
                                                         <td>{{item.linea}}</td>
                                                         <td>{{item.id_PRODUCTO.nombre}}</td>
+                                                        <td>{{item.stockActual}}</td>
                                                         <td><input type="number" value="{{item.cantidad}}"
                                                                 class="form-control"
                                                                 (change)="actualizarCantidad(item.id_PRODUCTO.id_PRODUCTO, $event)">
