@@ -135,7 +135,7 @@ export const MENU: MenuItem[] = [
         label: 'Kardex',
         link: '/kardex',
       },
-      {
+      /*{
         label: 'Gastos x Almacén',
         link: '/gastos',
       },
@@ -146,7 +146,7 @@ export const MENU: MenuItem[] = [
       {
         label: 'Stock x Lotes',
         link: '/stocklotes'
-      }
+      }*/
     ]
   },
   

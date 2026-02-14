@@ -29,8 +29,8 @@ export class FindmarcaComponent implements OnInit {
   }
 
   
-  filtrarMarcas(term):void{
-    this.marcaService.obtenerMarcasxTermino(term).subscribe((marcas) => {
+  filtrarMarcas():void{
+    this.marcaService.obtenerMarcas().subscribe((marcas) => {
     this.marcas = marcas;
     this.deleteTable();
     this.createDataTable();

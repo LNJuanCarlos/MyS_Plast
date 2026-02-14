@@ -53,7 +53,9 @@ export class ProductoComponent implements OnInit {
       if (result.isConfirmed) {
         this.productoService.eliminarProducto(producto.id_PRODUCTO).subscribe(
           response => {
+            this.deleteTable();
             this.productos = this.productos.filter(prod => prod !== producto)
+            this.createDataTable();
             swalWithBootstrapButtons.fire(
               'Eliminado!',
               'El Producto ha sido eliminado',
@@ -79,6 +81,9 @@ export class ProductoComponent implements OnInit {
     $(function () {
       $("#productos").DataTable({
         "responsive": false, "lengthChange": false, "autoWidth": false,
+        language: {
+          "url":"assets/data/idiomadatatable.json"
+        },
         "buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"]
       }).buttons().container().appendTo('#productos_wrapper .col-md-6:eq(0)');
     });
@@ -101,5 +106,21 @@ export class ProductoComponent implements OnInit {
     $('#productos').dataTable().fnDestroy();
   }
 
+  actualizarListadoProductos(producto: Producto) {
+   
+    const index = this.productos.findIndex(prod => prod.id_PRODUCTO === producto.id_PRODUCTO);
+    if (index !== -1) {
+      this.productos[index].codexterno = producto.codexterno;
+      this.productos[index].desc_PRODUCTO = producto.desc_PRODUCTO;
+      this.productos[index].estado = producto.estado;
+      this.productos[index].flag_INSUMO = producto.flag_INSUMO;
+      this.productos[index].flag_PRODUCCION = producto.flag_PRODUCCION;
+      this.productos[index].id_CATEGORIA = producto.id_CATEGORIA;
+      this.productos[index].id_MARCA = producto.id_MARCA;
+      this.productos[index].id_UNMEDIDA = producto.id_UNMEDIDA;
+      this.productos[index].nombre = producto.nombre;
+    }
+    
+  }
 
 }

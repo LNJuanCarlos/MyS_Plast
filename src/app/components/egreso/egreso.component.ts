@@ -33,9 +33,12 @@ export class EgresoComponent implements OnInit {
   c: null;
   rootNode: any;
 
+  fechaInicio: string = '';
+  fechaFin: string = '';
+
   whsalidaSeleccionado: Egreso;
-  selectedAlmacen: Almacen = { id_ALMACEN: '', nom_ALMACEN: '', estado: '',reg_USER:null,fech_REG_USER:'', fech_MOD_USER:'',mod_USER:''};
-  selectedSector: Sector = { id_SECTOR: '', nom_SECTOR: '',  id_ALMACEN:null,fech_REG_USER:null,reg_USER:''};
+  selectedAlmacen: Almacen = { id_ALMACEN: null, nom_ALMACEN: '', estado: '',reg_USER:null,fech_REG_USER:'', fech_MOD_USER:'',mod_USER:''};
+  selectedSector: Sector = { id_SECTOR: null, nom_SECTOR: '',  id_ALMACEN:null,fech_REG_USER:null,reg_USER:''};
 
   AutoComplete = new FormControl();
   productosFiltrados: Observable<Producto[]>;
@@ -44,17 +47,36 @@ export class EgresoComponent implements OnInit {
     public almacenService: AlmacenService, public sectorService: SectorService, public centrocostoService: CentrocostoService) { }
 
   ngOnInit(): void {
-    
-    this.cargarEgresos();
+    //this.selectedAlmacen = null;
+    this.almacenService.obtenerAlmacenes().subscribe(almacen => this.almacenes = almacen);
+    this.centrocostoService.obtenerCentrocostos().subscribe(centrocosto => this.centrocostos = centrocosto);
+    this.getFechaActualY7DiasAtras();
+    //this.cargarEgresos();
   }
 
   cargarEgresos(){
-    this.almacenService.obtenerAlmacenes().subscribe(almacen => this.almacenes = almacen);
-    this.centrocostoService.obtenerCentrocostos().subscribe(centrocosto => this.centrocostos = centrocosto);
+    
     this.egresoservice.obtenerEgresos().subscribe((mydata) => {
     this.egresos = mydata;
     this.createDataTable();
     })          
+  }
+
+  getFechaActualY7DiasAtras() {
+    const hoy = new Date();
+    const hace7Dias = new Date();
+    hace7Dias.setDate(hoy.getDate() - 7);
+
+    const formatoFecha = (fecha: Date) => {
+      const year = fecha.getFullYear();
+      const month = String(fecha.getMonth() + 1).padStart(2, '0');
+      const day = String(fecha.getDate()).padStart(2, '0');
+      return `${year}-${month}-${day}`;
+    };
+
+    this.fechaInicio = formatoFecha(hace7Dias);
+    this.fechaFin = formatoFecha(hoy);
+    this.filtrarEgresos(this.selectedSector.id_SECTOR, this.selectedAlmacen.id_ALMACEN);
   }
 
   anularEgreso(whsalida: Egreso): void {
@@ -107,7 +129,7 @@ export class EgresoComponent implements OnInit {
     $(function () {
       $("#egresos").DataTable({
         "responsive": false, "lengthChange": false, "autoWidth": false,
-        "buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"]
+        "buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"], order: [[0, 'desc']]
       }).buttons().container().appendTo('#egresos_wrapper .col-md-6:eq(0)');
       /*    
          $('#example1').dataTable().fnClearTable();
@@ -120,12 +142,12 @@ export class EgresoComponent implements OnInit {
     $('#egresos').dataTable().fnDestroy();
   }
 
-  filtrarEgresos(sector, almacen, fecha1, fecha2):void{
-    this.egresoservice.obtenerEgresoFiltro(sector, almacen, fecha1, fecha2).subscribe((egresos) => {
+  filtrarEgresos(sector, almacen):void{
+    this.egresoservice.obtenerEgresoFiltro(sector, almacen, this.fechaInicio, this.fechaFin).subscribe((egresos) => {
     this.egresos = egresos;
     this.deleteTable();
     this.createDataTable();
-    this.limpiarCampos();
+    //this.limpiarCampos();
   })          
  
 }

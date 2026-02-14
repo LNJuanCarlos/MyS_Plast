@@ -33,6 +33,9 @@ export class TransferenciaComponent implements OnInit {
   c: null;
   rootNode: any;
 
+  fechaInicio: string = '';
+  fechaFin: string = '';
+
   transferenciaSeleccionado: Transferencia;
   selectedAlmacen: Almacen = { id_ALMACEN: '', nom_ALMACEN: '', estado: '',reg_USER:null,fech_REG_USER:'', fech_MOD_USER:'',mod_USER:''};
   selectedSector: Sector = { id_SECTOR: '', nom_SECTOR: '',  id_ALMACEN:null,fech_REG_USER:null,reg_USER:''};
@@ -46,8 +49,25 @@ export class TransferenciaComponent implements OnInit {
   public almacenService: AlmacenService, public sectorService: SectorService) { }
 
   ngOnInit(): void {
-    
-    this.cargarWhsalidas();
+    this.getFechaActualY7DiasAtras();
+    //this.cargarWhsalidas();
+  }
+
+  getFechaActualY7DiasAtras() {
+    const hoy = new Date();
+    const hace7Dias = new Date();
+    hace7Dias.setDate(hoy.getDate() - 7);
+
+    const formatoFecha = (fecha: Date) => {
+      const year = fecha.getFullYear();
+      const month = String(fecha.getMonth() + 1).padStart(2, '0');
+      const day = String(fecha.getDate()).padStart(2, '0');
+      return `${year}-${month}-${day}`;
+    };
+
+    this.fechaInicio = formatoFecha(hace7Dias);
+    this.fechaFin = formatoFecha(hoy);
+    this.filtrarWhtransferencias(this.selectedSector.id_SECTOR, this.selectedAlmacen.id_ALMACEN);
   }
 
   cargarWhsalidas(){
@@ -108,7 +128,7 @@ export class TransferenciaComponent implements OnInit {
     $(function () {
       $("#whtransferencias").DataTable({
         "responsive": false, "lengthChange": false, "autoWidth": false,
-        "buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"]
+        "buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"], order: [[0, 'desc']]
       }).buttons().container().appendTo('#whtransferencias_wrapper .col-md-6:eq(0)');
       /*    
          $('#example1').dataTable().fnClearTable();
@@ -121,12 +141,12 @@ export class TransferenciaComponent implements OnInit {
     $('#whtransferencias').dataTable().fnDestroy();
   }
 
-  filtrarWhtransferencias(sector, almacen, fecha1, fecha2):void{
-    this.transferenciaservice.obtenerTransferenciaFiltro(sector, almacen, fecha1, fecha2).subscribe((transferencias) => {
+  filtrarWhtransferencias(sector, almacen):void{
+    this.transferenciaservice.obtenerTransferenciaFiltro(sector, almacen, this.fechaInicio, this.fechaFin).subscribe((transferencias) => {
     this.transferencias = transferencias;
     this.deleteTable();
     this.createDataTable();
-    this.limpiarCampos();
+    //this.limpiarCampos();
   })          
  
 }

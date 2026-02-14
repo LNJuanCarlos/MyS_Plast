@@ -60,6 +60,18 @@ export class FormnaturalComponent implements OnInit {
     this.cerrarModal();
   }
 
+  soloNumerosDocumento(event: any) {
+    const input = event.target;
+    input.value = input.value.replace(/[^0-9]/g, '');
+    this.natural.nrodoc = input.value;
+  }
+
+  soloNumerosTelefono(event: any) {
+    const input = event.target;
+    input.value = input.value.replace(/[^0-9]/g, '');
+    this.natural.telefono = input.value;
+  }
+
   update(): void {
     this.naturalService.actualizarPersonaNatural(this.natural)
       .subscribe(json => {

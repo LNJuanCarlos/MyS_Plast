@@ -2,7 +2,7 @@
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header" style="display: block;">
-                <button (click)="cerrarModal()" type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <button (click)="cerrarModalSinCambios()" type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span></button>
                 <h2 class="modal-title text-center">REGISTRO DE PERSONA NATURAL</h2>
             </div>
@@ -59,7 +59,8 @@
                         El distrito es requerido
                     </div>
                 </div>
-                <div class="alert alert-danger" *ngIf="colaborador.invalid && (colaborador.dirty || colaborador.touched)">
+                <div class="alert alert-danger"
+                    *ngIf="colaborador.invalid && (colaborador.dirty || colaborador.touched)">
                     <div *ngIf="colaborador.errors.required">
                         El colaborador es requerido
                     </div>
@@ -89,27 +90,30 @@
                                     <form #empresaForm="ngForm">
                                         <div class="row">
                                             <div class="col-sm-4">
-                                                <div >
+                                                <div>
                                                     <label for="nombres">NOMBRES</label>
                                                     <input type="text" class="form-control"
-                                                        [(ngModel)]="natural.nombres" name="nombres" required pattern="[a-zA-Z ]{2,254}"
-                                                        #nombres="ngModel" placeholder="Ingresa el nombre">
+                                                        [(ngModel)]="natural.nombres" name="nombres" required
+                                                        pattern="[a-zA-Z ]{2,254}" #nombres="ngModel"
+                                                        placeholder="Ingresa el nombre">
                                                 </div>
                                             </div><!-- Col -->
                                             <div class="col-sm-4">
                                                 <div class="form-group">
                                                     <label for="ape_pat">APELLIDO PATERNO</label>
                                                     <input type="text" class="form-control"
-                                                        [(ngModel)]="natural.ape_PAT" name="ape_pat" required pattern="^[a-zA-Z ]{2,254}"
-                                                        #ape_pat="ngModel" placeholder="Ingresa el apellido paterno">
+                                                        [(ngModel)]="natural.ape_PAT" name="ape_pat" required
+                                                        pattern="^[a-zA-Z ]{2,254}" #ape_pat="ngModel"
+                                                        placeholder="Ingresa el apellido paterno">
                                                 </div>
                                             </div><!-- Col -->
                                             <div class="col-sm-4">
                                                 <div class="form-group">
                                                     <label for="ape_mat">APELLIDO MATERNO</label>
                                                     <input type="text" class="form-control"
-                                                        [(ngModel)]="natural.ape_MAT" name="ape_mat" required pattern="^[a-zA-Z ]{2,254}"
-                                                        #ape_mat="ngModel" placeholder="Ingresa el apellido materno">
+                                                        [(ngModel)]="natural.ape_MAT" name="ape_mat" required
+                                                        pattern="^[a-zA-Z ]{2,254}" #ape_mat="ngModel"
+                                                        placeholder="Ingresa el apellido materno">
                                                 </div>
                                             </div><!-- Col -->
                                         </div><!-- Row -->
@@ -119,7 +123,7 @@
                                                 <div class="form-group">
                                                     <label for="tipodoc">TIPO DOCUMENTO</label>
                                                     <select [compareWith]="compararTipodoc" class="form-control"
-                                                        [(ngModel)]="natural.id_TIPODOC"  name="tipodoc" required
+                                                        [(ngModel)]="natural.id_TIPODOC" name="tipodoc" required
                                                         #tipodoc="ngModel">
                                                         <option *ngFor="let tipodoc of tipodocs" [ngValue]="tipodoc">
                                                             {{tipodoc.nom_TIPODOC}}</option>
@@ -130,18 +134,19 @@
                                                 <div class="form-group">
                                                     <label for="nrodoc">NRO. DOCUMENTO</label>
                                                     <input type="text" class="form-control" [(ngModel)]="natural.nrodoc"
-                                                        name="ruc" required minlength="8" maxlength="8" pattern="^[0-9]*$"
-                                                        #nrodoc="ngModel" placeholder="Ingresa el número de Documento">
+                                                        name="dni" required minlength="8" maxlength="8"
+                                                        pattern="^[0-9]*$" #nrodoc="ngModel"
+                                                        (input)="soloNumerosDocumento($event)"
+                                                        placeholder="Ingresa el número de Documento">
                                                 </div>
                                             </div><!-- Col -->
                                             <div class="col-sm-4">
-                                                <div class="form-group">
-                                                    <label for="telefono">TELÉFONO</label>
-                                                    <input type="text" class="form-control"
+                                                <div class="form-group"> <label for="telefono">TELÉFONO</label> <input
+                                                        type="text" class="form-control"
                                                         [(ngModel)]="natural.telefono" name="telefono" minlength="9"
                                                         maxlength="9" #telefono="ngModel"
-                                                        placeholder="Ingresa el número de teléfono">
-                                                </div>
+                                                        (input)="soloNumerosTelefono($event)"
+                                                        placeholder="Ingresa el número de teléfono"> </div>
                                             </div><!-- Col -->
                                         </div><!-- Row -->
 
@@ -149,7 +154,8 @@
                                             <div class="col-sm-4">
                                                 <div class="form-group">
                                                     <label for="departamento">DEPARTAMENTO</label>
-                                                    <select [compareWith]="compararDepartamento" class="form-control" name="departamento"
+                                                    <select [compareWith]="compararDepartamento" class="form-control"
+                                                        name="departamento"
                                                         [(ngModel)]="selectedDepartamento.id_departamento"
                                                         (ngModelChange)="handleDepartamentoChange($event)"
                                                         #departamento="ngModel">
@@ -162,8 +168,8 @@
                                             <div class="col-sm-4">
                                                 <div class="form-group">
                                                     <label for="provincia">PROVINCIA</label>
-                                                    <select [compareWith]="compararProvincia" class="form-control" name="provincia"
-                                                        [(ngModel)]="selectedProvincia.id_provincia"
+                                                    <select [compareWith]="compararProvincia" class="form-control"
+                                                        name="provincia" [(ngModel)]="selectedProvincia.id_provincia"
                                                         (ngModelChange)="handleProvinciaChange($event)"
                                                         #provincia="ngModel">
                                                         <option *ngFor="let provincia of provincias"
@@ -205,11 +211,10 @@
                                             <div class="col-sm-4">
                                                 <div class="form-group">
                                                     <label for="distrito">COLABORADOR</label>
-                                                    <select  class="form-control"
-                                                        [(ngModel)]="natural.flag_TRABAJADOR" name="colaborador" required
-                                                        #colaborador="ngModel">
-                                                            <option  value="Y">Si</option>
-                                                            <option  value="N">No</option>
+                                                    <select class="form-control" [(ngModel)]="natural.flag_TRABAJADOR"
+                                                        name="colaborador" required #colaborador="ngModel">
+                                                        <option value="Y">Si</option>
+                                                        <option value="N">No</option>
                                                     </select>
                                                 </div>
                                             </div><!-- Col -->
@@ -225,7 +230,7 @@
 
                 <br>
                 <div class="modal-body">
-                    
+
 
                     <div class="row">
                         <div class="col-sm-6">
@@ -233,13 +238,13 @@
                                 *ngIf="!natural.id_PERSONA else elseBlock"
                                 [disabled]="!empresaForm.form.valid">CREAR</button>
                             <ng-template #elseBlock>
-                                <button type="button" class="btn btn-block btn-success" 
-                                    (click)='update()' [disabled]="!empresaForm.form.valid">Actualizar</button>
+                                <button type="button" class="btn btn-block btn-success" (click)='update()'
+                                    [disabled]="!empresaForm.form.valid">Actualizar</button>
                             </ng-template>
                         </div>
                         <div class="col-sm-6">
-                            <button (click)="cerrarModal()" type="submit" role="button" class="btn btn-block btn-primary"
-                                data-dismiss="modal">CERRAR</button>
+                            <button (click)="cerrarModal()" type="submit" role="button"
+                                class="btn btn-block btn-primary" data-dismiss="modal">CERRAR</button>
                         </div>
                     </div><!-- Row -->
                 </div>

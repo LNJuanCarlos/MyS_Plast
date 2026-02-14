@@ -68,6 +68,18 @@ export class FormjuridicaComponent implements OnInit {
    
  }
 
+ soloNumerosRuc(event: any) {
+  const input = event.target;
+  input.value = input.value.replace(/[^0-9]/g, '');
+  this.juridica.nrodoc = input.value;
+ }
+
+ soloNumerosTelefono(event: any) {
+  const input = event.target;
+  input.value = input.value.replace(/[^0-9]/g, '');
+  this.juridica.telefono = input.value;
+ }
+
  update(): void {
    this.juridicaService.actualizarPersonaJuridica(this.juridica)
      .subscribe(json => {

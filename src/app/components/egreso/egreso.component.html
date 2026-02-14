@@ -17,7 +17,7 @@
                 <div class="form-group">
                   <label for="">FECHA DE INICIO</label>
                   <div>
-                    <input id="fecha1" type="date" class="form-control" #fecha1>
+                    <input id="fecha1" type="date" class="form-control" [(ngModel)]="fechaInicio" name="fechaInicio">
                   </div>
                 </div>
               </div><!-- Col -->
@@ -25,7 +25,7 @@
                 <div class="form-group">
                   <label for="">FECHA FINAL</label>
                   <div>
-                    <input id="fecha2" type="date" class="form-control" #fecha2>
+                    <input id="fecha2" type="date" class="form-control" [(ngModel)]="fechaFin" name="fechaFin">
                   </div>
                 </div>
               </div><!-- Col -->
@@ -35,6 +35,7 @@
                   <div>
                     <select id="almacenes" class="form-control" name="almacen" [(ngModel)]="selectedAlmacen.id_ALMACEN"
                     (ngModelChange)="handleAlmacenChange($event)" #almacen>
+                    <option [ngValue]="null" disabled selected>Seleccione una Opcion</option>
                       <option *ngFor="let almacen of almacenes" value={{almacen.id_ALMACEN}}>{{almacen.nom_ALMACEN}}
                       </option>
                     </select>
@@ -47,6 +48,7 @@
                   <div>
                     <select id="sector" class="form-control" [(ngModel)]="selectedSector.id_SECTOR"
                       name="sector" #sector>
+                      <option [ngValue]="null" disabled selected>Seleccione una Opcion</option>
                       <option *ngFor="let sector of sectores" value={{sector.id_SECTOR}}>
                         {{sector.nom_SECTOR}}</option>
                     </select>
@@ -64,7 +66,7 @@
               <div class="col-sm-6">
                 <div class="form-group">
                   <button style="font-weight: 500; font-size: 14px; background-color: #283593;" type="submit" class="btn btn-block" role="button"
-                    (click)="filtrarEgresos(sector.value, almacen.value,fecha1.value, fecha2.value)">BUSCAR</button>
+                    (click)="filtrarEgresos(sector.value, almacen.value)">BUSCAR</button>
                 </div>
               </div><!-- Col -->
             </div>

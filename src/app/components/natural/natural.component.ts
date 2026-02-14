@@ -55,7 +55,9 @@ export class NaturalComponent implements OnInit {
         this.naturalService.eliminarPersonaNatural(natural.id_PERSONA).subscribe(
           
           response => {
+            this.deleteTable();
             this.naturales = this.naturales.filter(nat => nat!== natural)
+            this.createDataTable();
             swalWithBootstrapButtons.fire(
               'Eliminado!',
               'La persona natural ha sido eliminada',
@@ -164,6 +166,30 @@ export class NaturalComponent implements OnInit {
 
   deleteTable() {
     $('#naturales').dataTable().fnDestroy();
+  }
+
+  cargarProductos() {
+    this.naturalService.obtenerPersonasNaturales().subscribe((natural) => {
+      this.naturales = natural
+      this.createDataTable();
+    });
+  }
+
+  actualizarListadoNatural(natural: Natural) {
+   
+    const index = this.naturales.findIndex(nat => nat.id_PERSONA === nat.id_PERSONA);
+    if (index !== -1) {
+      this.naturales[index].nombres = natural.nombres;
+      this.naturales[index].ape_PAT = natural.ape_PAT;
+      this.naturales[index].ape_MAT = natural.ape_MAT;
+      this.naturales[index].nrodoc = natural.nrodoc;
+      this.naturales[index].telefono = natural.telefono;
+      this.naturales[index].direccion = natural.direccion;
+      this.naturales[index].correo = natural.correo;
+      this.naturales[index].id_DISTRITO = natural.id_DISTRITO;
+      this.naturales[index].estado = natural.estado;
+    }
+    
   }
 
 

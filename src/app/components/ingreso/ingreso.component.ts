@@ -30,27 +30,48 @@ export class IngresoComponent implements OnInit {
   c: null;
   rootNode: any;
 
+  fechaInicio: string = '';
+  fechaFin: string = '';
+
   ingresoSeleccionado: Ingreso;
-  selectedAlmacen: Almacen = { id_ALMACEN: '', nom_ALMACEN: '', estado: '',reg_USER:null,fech_REG_USER:'', fech_MOD_USER:'',mod_USER:''};
-  selectedSector: Sector = { id_SECTOR: '', nom_SECTOR: '',  id_ALMACEN:null,fech_REG_USER:null,reg_USER:''};
+  selectedAlmacen: Almacen = { id_ALMACEN: '', nom_ALMACEN: '', estado: '', reg_USER: null, fech_REG_USER: '', fech_MOD_USER: '', mod_USER: '' };
+  selectedSector: Sector = { id_SECTOR: '', nom_SECTOR: '', id_ALMACEN: null, fech_REG_USER: null, reg_USER: '' };
 
   AutoComplete = new FormControl();
   productosFiltrados: Observable<Producto[]>;
 
   constructor(private ingresoservice: IngresoService, public modalService: ModalService, public authService: AuthService, public almacenService: AlmacenService,
-    public sectorService: SectorService,private _reportS: ReportsService) { }
+    public sectorService: SectorService, private _reportS: ReportsService) { }
 
   ngOnInit(): void {
-    
-    this.cargarIngresos();
+    this.almacenService.obtenerAlmacenes().subscribe(almacen => this.almacenes = almacen);
+    this.getFechaActualY7DiasAtras();
+    //this.cargarIngresos();
   }
 
-  cargarIngresos(){
-    this.almacenService.obtenerAlmacenes().subscribe(almacen => this.almacenes = almacen);
+
+  getFechaActualY7DiasAtras() {
+    const hoy = new Date();
+    const hace7Dias = new Date();
+    hace7Dias.setDate(hoy.getDate() - 7);
+
+    const formatoFecha = (fecha: Date) => {
+      const year = fecha.getFullYear();
+      const month = String(fecha.getMonth() + 1).padStart(2, '0');
+      const day = String(fecha.getDate()).padStart(2, '0');
+      return `${year}-${month}-${day}`;
+    };
+
+    this.fechaInicio = formatoFecha(hace7Dias);
+    this.fechaFin = formatoFecha(hoy);
+    this.filtrarIngresos(this.selectedSector.id_SECTOR, this.selectedAlmacen.id_ALMACEN);
+  }
+
+  cargarIngresos() {
     this.ingresoservice.obtenerIngresos().subscribe((mydata) => {
-    this.ingresos = mydata;
-    this.createDataTable();
-    })          
+      this.ingresos = mydata;
+      this.createDataTable();
+    })
   }
 
   anularWhingreso(ingreso: Ingreso): void {
@@ -64,19 +85,19 @@ export class IngresoComponent implements OnInit {
       confirmButtonText: 'Si, Anular!'
     }).then((result) => {
       if (result.isConfirmed) {
-          ingreso.estado = "N"
-          this.ingresoservice.anularWhingreso(ingreso).subscribe(
-            response => {
-              this.ingresos = this.ingresos.filter(wh => wh!== ingreso)
-              this.deleteTable();
-              this.cargarIngresos();
-              Swal.fire(
-                'Anulado!',
-                'Se ha anulado el Ingreso de Productos',
-                'success'
-              )
-            }
-          )
+        ingreso.estado = "N"
+        this.ingresoservice.anularWhingreso(ingreso).subscribe(
+          response => {
+            this.ingresos = this.ingresos.filter(wh => wh !== ingreso)
+            this.deleteTable();
+            this.cargarIngresos();
+            Swal.fire(
+              'Anulado!',
+              'Se ha anulado el Ingreso de Productos',
+              'success'
+            )
+          }
+        )
       }
     })
   }
@@ -85,25 +106,25 @@ export class IngresoComponent implements OnInit {
     this.sectorService.obtenerSectoresxAlmacen(id).subscribe((sector) => this.sectores = sector);
   }
 
-   //METODO PARA ASIGNAR LOS DATOS DE LA PERSONA SELECCIONADA Y CAMBIA EL ESTADO DEL MODAL
-   abrirModal(ingreso: Ingreso){
+  //METODO PARA ASIGNAR LOS DATOS DE LA PERSONA SELECCIONADA Y CAMBIA EL ESTADO DEL MODAL
+  abrirModal(ingreso: Ingreso) {
     this.ingresoSeleccionado = ingreso;
     this.modalService.abrirModal();
   }
 
   //METODO PARA ASIGNAR LOS DATOS DE LA PERSONA COMO NUEVO PARA LA CREACION DE PERSONA Y CAMBIA EL ESTADO DEL MODAL
-  abrirModalNuevo(){
+  abrirModalNuevo() {
     this.ingresoSeleccionado = new Ingreso();
     this.modalService.abrirModal();
   }
 
-  
+
   createDataTable() {
 
     $(function () {
       $("#ingresos").DataTable({
         "responsive": false, "lengthChange": false, "autoWidth": false,
-        "buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"]
+        "buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"], order: [[0, 'desc']]
       }).buttons().container().appendTo('#ingresos_wrapper .col-md-6:eq(0)');
       /*    
          $('#example1').dataTable().fnClearTable();
@@ -116,29 +137,30 @@ export class IngresoComponent implements OnInit {
     $('#ingresos').dataTable().fnDestroy();
   }
 
-  filtrarIngresos(sector, almacen, fecha1, fecha2):void{
-    this.ingresoservice.obtenerIngresoFiltro(sector, almacen, fecha1, fecha2).subscribe((ingresos) => {
-    this.ingresos = ingresos;
-    this.deleteTable();
-    this.createDataTable();
-    this.limpiarCampos();
-  })          
- 
-}
+  filtrarIngresos(sector, almacen): void {
+    console.log(this.fechaInicio, this.fechaFin);
+    this.ingresoservice.obtenerIngresoFiltro(sector, almacen, this.fechaInicio, this.fechaFin).subscribe((ingresos) => {
+      this.ingresos = ingresos;
+      this.deleteTable();
+      this.createDataTable();
+      //this.limpiarCampos();
+    })
 
-limpiarCampos():void{
-  $(function () {
-    $("#almacenes").val('');
-    $("#fecha1").val('');
-    $("#sector").val('');
-    $("#fecha2").val('')
-  });
-}
+  }
 
-createPDFIngreso(ingreso: Ingreso) {
-  let doc = this._reportS.getIngresoPDF(ingreso);
-  this._reportS.openPDF(doc);
-}
+  limpiarCampos(): void {
+    $(function () {
+      $("#almacenes").val('');
+      $("#fecha1").val('');
+      $("#sector").val('');
+      $("#fecha2").val('')
+    });
+  }
+
+  createPDFIngreso(ingreso: Ingreso) {
+    let doc = this._reportS.getIngresoPDF(ingreso);
+    this._reportS.openPDF(doc);
+  }
 
 
 }

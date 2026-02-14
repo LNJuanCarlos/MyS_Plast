@@ -17,7 +17,7 @@
                 <div class="form-group">
                   <label for="">FECHA DE INICIO</label>
                   <div>
-                    <input id="fecha1" type="date" class="form-control" #fecha1>
+                    <input id="fecha1" type="date" class="form-control" [(ngModel)]="fechaInicio" name="fechaInicio">
                   </div>
                 </div>
               </div><!-- Col -->
@@ -25,7 +25,7 @@
                 <div class="form-group">
                   <label for="">FECHA FINAL</label>
                   <div>
-                    <input id="fecha2" type="date" class="form-control" #fecha2>
+                    <input id="fecha2" type="date" class="form-control" [(ngModel)]="fechaFin" name="fechaFin">
                   </div>
                 </div>
               </div><!-- Col -->
