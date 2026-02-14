@@ -81,9 +81,6 @@ export class ProductoComponent implements OnInit {
     $(function () {
       $("#productos").DataTable({
         "responsive": false, "lengthChange": false, "autoWidth": false,
-        language: {
-          "url":"assets/data/idiomadatatable.json"
-        },
         "buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"]
       }).buttons().container().appendTo('#productos_wrapper .col-md-6:eq(0)');
     });
