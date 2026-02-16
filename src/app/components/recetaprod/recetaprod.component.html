@@ -93,7 +93,7 @@
                       <td>{{receta.nom_RECETA}}</td>
                       <td>{{receta.id_PRODUCTO.nombre}}</td>
                       <td>{{receta.fecha}}</td>
-                      <td *ngIf="receta.estado =='N' else elseBlock"><span class="badge bg-secundary">Anulado</span></td>
+                      <td *ngIf="receta.estado =='N' else elseBlock"><span class="badge bg-danger">Anulado</span></td>
                     <ng-template #elseBlock>
                       <td><span class="badge bg-success">Activo</span></td>
                     </ng-template>

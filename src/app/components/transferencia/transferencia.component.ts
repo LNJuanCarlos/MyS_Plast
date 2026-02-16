@@ -49,6 +49,7 @@ export class TransferenciaComponent implements OnInit {
   public almacenService: AlmacenService, public sectorService: SectorService) { }
 
   ngOnInit(): void {
+    this.almacenService.obtenerAlmacenes().subscribe(almacen => this.almacenes = almacen);
     this.getFechaActualY7DiasAtras();
     //this.cargarWhsalidas();
   }
@@ -71,7 +72,7 @@ export class TransferenciaComponent implements OnInit {
   }
 
   cargarWhsalidas(){
-    this.almacenService.obtenerAlmacenes().subscribe(almacen => this.almacenes = almacen);
+    
     this.transferenciaservice.obtenerTransferencias().subscribe((mydata) => {
     this.transferencias = mydata;
     this.createDataTable();

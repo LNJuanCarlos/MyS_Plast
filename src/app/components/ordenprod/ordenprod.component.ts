@@ -42,7 +42,8 @@ export class OrdenprodComponent implements OnInit {
   c: null;
   rootNode: any;
 
-
+  fechaInicio: string = '';
+  fechaFin: string = '';
 
   ordenprodSeleccionado: Ordenprod;
   selectedAlmacen: Almacen = { id_ALMACEN: '', nom_ALMACEN: '', estado: '', reg_USER: null, fech_REG_USER: '', fech_MOD_USER: '', mod_USER: '' };
@@ -57,13 +58,16 @@ export class OrdenprodComponent implements OnInit {
 
   ngOnInit(): void {
 
-    this.cargarIngresos();
-  }
-
-  cargarIngresos() {
     this.almacenService.obtenerAlmacenes().subscribe(almacen => this.almacenes = almacen);
     this.categoriaService.obtenerCategoriaTransaccion(2).subscribe(categoria => this.categoria = categoria);
     this.categoriaService.obtenerCategoriaTransaccion(7).subscribe(categoria => this.categoriaInsumos = categoria);
+    this.cargarIngresos();
+    this.getFechaActualY7DiasAtras();
+    //this.cargarIngresos();
+  }
+
+  cargarIngresos() {
+    
     this.ordenprodservice.obtenerOrdenesdeProduccion().subscribe((mydata) => {
       this.ordenprods = mydata;
       this.createDataTable();
@@ -197,7 +201,7 @@ export class OrdenprodComponent implements OnInit {
     $(function () {
       $("#ordenprods").DataTable({
         "responsive": false, "lengthChange": false, "autoWidth": false,
-        "buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"]
+        "buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"], order: [[0, 'desc']]
       }).buttons().container().appendTo('#ordenprods_wrapper .col-md-6:eq(0)');
       /*    
          $('#example1').dataTable().fnClearTable();
@@ -233,6 +237,34 @@ export class OrdenprodComponent implements OnInit {
   createPDFOrdenprod(ordenprod: Ordenprod) {
     let doc = this._reportS.getOrdenprodPDF(ordenprod);
     this._reportS.openPDF(doc);
+  }
+
+  getFechaActualY7DiasAtras() {
+    const hoy = new Date();
+    const hace7Dias = new Date();
+    hace7Dias.setDate(hoy.getDate() - 7);
+
+    const formatoFecha = (fecha: Date) => {
+      const year = fecha.getFullYear();
+      const month = String(fecha.getMonth() + 1).padStart(2, '0');
+      const day = String(fecha.getDate()).padStart(2, '0');
+      return `${year}-${month}-${day}`;
+    };
+
+    this.fechaInicio = formatoFecha(hace7Dias);
+    this.fechaFin = formatoFecha(hoy);
+    this.filtrarOrdenprodsNew(this.selectedSector.id_SECTOR, this.selectedAlmacen.id_ALMACEN, this.ordenprodSeleccionado.estado);
+  }
+
+  filtrarOrdenprodsNew(sector, almacen, estado): void {
+    console.log(this.fechaInicio, this.fechaFin);
+    this.ordenprodservice.obtenerOrdenprodFiltro(sector, almacen, this.fechaInicio, this.fechaFin , estado).subscribe((ordenprods) => {
+      this.ordenprods = ordenprods;
+      this.deleteTable();
+      this.createDataTable();
+      //this.limpiarCampos();
+    })
+
   }
 
 }

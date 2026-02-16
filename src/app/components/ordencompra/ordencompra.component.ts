@@ -38,7 +38,8 @@ export class OrdencompraComponent implements OnInit {
   c: null;
   rootNode: any;
 
-
+  fechaInicio: string = '';
+  fechaFin: string = '';
 
   ordencompraSeleccionado: OrdenCompra;
   selectedAlmacen: Almacen = { id_ALMACEN: '', nom_ALMACEN: '', estado: '',reg_USER:null,fech_REG_USER:'', fech_MOD_USER:'',mod_USER:''};
@@ -52,13 +53,14 @@ export class OrdencompraComponent implements OnInit {
     private categoriaService: CategoriatransaccionService) { }
 
   ngOnInit(): void {
-
-    this.cargarIngresos();
+    this.almacenService.obtenerAlmacenes().subscribe(almacen => this.almacenes = almacen);
+    this.categoriaService.obtenerCategoriaTransaccion(1).subscribe(categoria => this.categoria = categoria);
+    this.getFechaActualY7DiasAtras();
+    //this.cargarIngresos();
   }
 
   cargarIngresos() {
-    this.almacenService.obtenerAlmacenes().subscribe(almacen => this.almacenes = almacen);
-    this.categoriaService.obtenerCategoriaTransaccion(1).subscribe(categoria => this.categoria = categoria);
+    
     this.ordencompraservice.obtenerOrdenesdeCompra().subscribe((mydata) => {
       this.ordencompras = mydata;
       this.createDataTable();
@@ -219,7 +221,7 @@ export class OrdencompraComponent implements OnInit {
     $(function () {
       $("#ordencompras").DataTable({
         "responsive": false, "lengthChange": false, "autoWidth": false,
-        "buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"]
+        "buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"], order: [[0, 'desc']]
       }).buttons().container().appendTo('#ordencompras_wrapper .col-md-6:eq(0)');
       /*    
          $('#example1').dataTable().fnClearTable();
@@ -232,12 +234,12 @@ export class OrdencompraComponent implements OnInit {
     $('#ordencompras').dataTable().fnDestroy();
   }
 
-  filtrarOrdenCompras(sector, almacen, fecha1, fecha2): void {
-    this.ordencompraservice.obtenerOrdenCompraFiltro(sector, almacen, fecha1, fecha2).subscribe((ordencompras) => {
+  filtrarOrdenCompras(sector, almacen): void {
+    this.ordencompraservice.obtenerOrdenCompraFiltro(sector, almacen, this.fechaInicio, this.fechaFin).subscribe((ordencompras) => {
       this.ordencompras = ordencompras;
       this.deleteTable();
       this.createDataTable();
-      this.limpiarCampos();
+      //this.limpiarCampos();
     })
 
   }
@@ -254,6 +256,23 @@ export class OrdencompraComponent implements OnInit {
   createPDFOrdenCompra(ordencompra: OrdenCompra) {
     let doc = this._reportS.getOrdenCompraPDF(ordencompra);
     this._reportS.openPDF(doc);
+  }
+
+  getFechaActualY7DiasAtras() {
+    const hoy = new Date();
+    const hace7Dias = new Date();
+    hace7Dias.setDate(hoy.getDate() - 7);
+
+    const formatoFecha = (fecha: Date) => {
+      const year = fecha.getFullYear();
+      const month = String(fecha.getMonth() + 1).padStart(2, '0');
+      const day = String(fecha.getDate()).padStart(2, '0');
+      return `${year}-${month}-${day}`;
+    };
+
+    this.fechaInicio = formatoFecha(hace7Dias);
+    this.fechaFin = formatoFecha(hoy);
+    this.filtrarOrdenCompras(this.selectedSector.id_SECTOR, this.selectedAlmacen.id_ALMACEN);
   }
 
 

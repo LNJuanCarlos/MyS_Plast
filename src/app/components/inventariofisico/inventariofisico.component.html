@@ -16,7 +16,7 @@
                 <div class="form-group">
                   <label for="">FECHA DE INICIO</label>
                   <div>
-                    <input id="fecha1" type="date" class="form-control" #fecha1>
+                    <input id="fecha1" type="date" class="form-control" [(ngModel)]="fechaInicio" name="fechaInicio">
                   </div>
                 </div>
               </div><!-- Col -->
@@ -24,7 +24,7 @@
                 <div class="form-group">
                   <label for="">FECHA FINAL</label>
                   <div>
-                    <input id="fecha2" type="date" class="form-control" #fecha2>
+                    <input id="fecha2" type="date" class="form-control" [(ngModel)]="fechaFin" name="fechaFin">
                   </div>
                 </div>
               </div><!-- Col -->
@@ -64,7 +64,7 @@
                 <div class="form-group">
                   <button style="font-weight: 500; font-size: 14px;background-color: #283593;" type="submit" class="btn btn-block"
                     role="button"
-                    (click)="filtrarInventariofisicos(sector.value,fecha1.value, fecha2.value)">BUSCAR</button>
+                    (click)="filtrarInventarios(sector.value,almacen.value)">BUSCAR</button>
                 </div>
               </div><!-- Col -->
             </div>
@@ -108,7 +108,7 @@
                         </td>
                         <td *ngIf="inventariofisico.estado =='N' else elseBlock"><span class="badge bg-danger">ANULADO</span></td>
                         <ng-template #elseBlock>
-                          <td *ngIf="inventariofisico.estado =='R' else elseifblock"><span class="badge bg-primary">REGULARIZADO</span></td>
+                          <td *ngIf="inventariofisico.estado =='R' else elseifblock"><span class="badge bg-info">REGULARIZADO</span></td>
                         </ng-template>
                         <ng-template #elseifblock>
                           <td *ngIf="inventariofisico.estado =='A' else elseif2block"><span class="badge bg-success">APROBADO</span></td>

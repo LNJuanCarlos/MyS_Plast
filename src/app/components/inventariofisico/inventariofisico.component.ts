@@ -42,6 +42,9 @@ export class InventariofisicoComponent implements OnInit {
   c: null;
   rootNode: any;
 
+  fechaInicio: string = '';
+  fechaFin: string = '';
+
   inventariofisicoSeleccionado: Inventariofisico;
   selectedAlmacen: Almacen = { id_ALMACEN: '', nom_ALMACEN: '', estado: '',reg_USER:null,fech_REG_USER:'', fech_MOD_USER:'',mod_USER:''};
   selectedSector: Sector = { id_SECTOR: '', nom_SECTOR: '',  id_ALMACEN:null,fech_REG_USER:null,reg_USER:''};
@@ -54,7 +57,13 @@ export class InventariofisicoComponent implements OnInit {
       private ingresoservice: IngresoService, private egresoService: EgresoService) { }
 
   ngOnInit(): void {
-    this.cargarIngresos();
+    
+    this.almacenService.obtenerAlmacenes().subscribe(almacen => this.almacenes = almacen);
+    this.categoriaService.obtenerCategoriaTransaccion(8).subscribe(categoria => this.categoriaIngreso = categoria);
+    this.categoriaService.obtenerCategoriaTransaccion(9).subscribe(categoria => this.categoriaSalida = categoria);
+    this.getFechaActualY7DiasAtras();
+    
+    //this.cargarIngresos();
   }
 
   regularizarInventarioFisico(inventariofisico: Inventariofisico){
@@ -133,6 +142,34 @@ export class InventariofisicoComponent implements OnInit {
     });
   }
 
+  getFechaActualY7DiasAtras() {
+    const hoy = new Date();
+    const hace7Dias = new Date();
+    hace7Dias.setDate(hoy.getDate() - 7);
+
+    const formatoFecha = (fecha: Date) => {
+      const year = fecha.getFullYear();
+      const month = String(fecha.getMonth() + 1).padStart(2, '0');
+      const day = String(fecha.getDate()).padStart(2, '0');
+      return `${year}-${month}-${day}`;
+    };
+
+    this.fechaInicio = formatoFecha(hace7Dias);
+    this.fechaFin = formatoFecha(hoy);
+    this.filtrarInventarios(this.selectedSector.id_SECTOR);
+  }
+
+  filtrarInventarios(sector): void {
+    console.log(this.fechaInicio, this.fechaFin);
+    this.inventariofisicoservice.obtenerInventariofisicoFiltro(sector, this.fechaInicio, this.fechaFin).subscribe((inventariofisicos) => {
+      this.inventariofisicos = inventariofisicos;
+      this.deleteTable();
+      this.createDataTable();
+      //this.limpiarCampos();
+    })
+
+  }
+
   anularInventarioFisico(inventariofisico: Inventariofisico): void {
     Swal.fire({
       title: 'Advertencia!',
@@ -208,9 +245,7 @@ export class InventariofisicoComponent implements OnInit {
 
 
   cargarIngresos() {
-    this.almacenService.obtenerAlmacenes().subscribe(almacen => this.almacenes = almacen);
-    this.categoriaService.obtenerCategoriaTransaccion(8).subscribe(categoria => this.categoriaIngreso = categoria);
-    this.categoriaService.obtenerCategoriaTransaccion(9).subscribe(categoria => this.categoriaSalida = categoria);
+    
     this.inventariofisicoservice.obtenerInventariosfisicos().subscribe((data) => {
       this.inventariofisicos = data
       this.createDataTable();});
@@ -252,7 +287,7 @@ export class InventariofisicoComponent implements OnInit {
   }
 
   filtrarInventariofisicos(sector, fecha1, fecha2): void {
-    this.inventariofisicoservice.obtenerInventariofisicoFiltro(sector, fecha1, fecha2).subscribe((inventariofisicos) => {
+    this.inventariofisicoservice.obtenerInventariofisicoFiltro(sector,  fecha1, fecha2).subscribe((inventariofisicos) => {
       this.inventariofisicos = inventariofisicos;
       this.deleteTable();
       this.createDataTable();

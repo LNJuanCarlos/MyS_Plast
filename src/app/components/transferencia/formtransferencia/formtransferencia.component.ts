@@ -57,8 +57,8 @@ constructor(private kardexService: KardexService, private transferenciaservice: 
 
 ngOnInit(): void {
   this.almacenService.obtenerAlmacenes().subscribe(almacen => this.almacen = almacen);
-  this.almacenService.obtenerAlmacenes().subscribe(almacendest => this.almacendest = almacendest);
   this.cargarCategoriasTransaccion();
+  this.almacenService.obtenerAlmacenes().subscribe(almacendest => this.almacendest = almacendest);
   this.productosFiltrados = this.AutoComplete.valueChanges
   .pipe(
     map(value => typeof value === 'string' ? value : value.nombre),
