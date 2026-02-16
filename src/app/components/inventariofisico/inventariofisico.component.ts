@@ -129,7 +129,7 @@ export class InventariofisicoComponent implements OnInit {
           response => {
             this.inventariofisicos = this.inventariofisicos.filter(oc => oc !== inventariofisico)
             this.deleteTable();
-            this.cargarIngresos();
+            this.getFechaActualY7DiasAtras();
             Swal.fire(
               'Inventariado!',
               'Se ha regularizado el Inventario Físico!',
@@ -230,7 +230,7 @@ export class InventariofisicoComponent implements OnInit {
             response => {
               this.inventariofisicos = this.inventariofisicos.filter(oc => oc !== inventariofisico)
               this.deleteTable();
-              this.cargarIngresos();
+              this.getFechaActualY7DiasAtras();
               Swal.fire(
                 'Aprobado!',
                 'Se ha aprobado el Inventario Físico!',
@@ -273,7 +273,7 @@ export class InventariofisicoComponent implements OnInit {
     $(function () {
       $("#inventariofisicos").DataTable({
         "responsive": false, "lengthChange": false, "autoWidth": false,
-        "buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"]
+        "buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"], order: [[0, 'desc']]
       }).buttons().container().appendTo('#inventariofisicos_wrapper .col-md-6:eq(0)');
       /*    
          $('#example1').dataTable().fnClearTable();
